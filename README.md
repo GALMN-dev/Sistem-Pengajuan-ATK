@@ -1,2 +1,2 @@
 # Sistem-Pengajuan-ATK
-Desc - Sistem Pengajuan ATK
+Sistem Pengajuan / Permintaan ATK
