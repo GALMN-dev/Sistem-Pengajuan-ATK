@@ -13,32 +13,86 @@
         .atk-image { width: 100%; height: 180px; object-fit: cover; border-radius: 16px; transition: all 0.3s; }
         .atk-image.grayscale { filter: grayscale(100%); }
         .nav-active { border-bottom: 4px solid #4f46e5; color: #4f46e5; font-weight: 600; }
+        
+        .mood-emoji {
+            font-size: 3.8rem;
+            transition: all 0.3s ease;
+        }
+        .mood-emoji:hover {
+            transform: scale(1.25) rotate(10deg);
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
 
     <!-- MENU UTAMA -->
-    <div id="page-role" class="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-600 to-blue-700 p-4">
-        <div class="text-center">
-            <i class="fa-solid fa-building-columns text-white text-7xl mb-6"></i>
-            <h1 class="text-4xl font-bold text-white mb-3">Sistem Pengajuan ATK</h1>
-            <p class="text-indigo-100 text-xl mb-12">Pilih peran Anda</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-                <div onclick="pilihRole('pengaju')" class="bg-white rounded-3xl p-10 cursor-pointer hover:shadow-2xl transition-all card-hover">
-                    <i class="fa-solid fa-user text-indigo-600 text-5xl mb-6"></i>
-                    <h3 class="text-2xl font-semibold text-gray-800">Pengaju</h3>
-                    <p class="text-gray-500 mt-2">Ajukan kebutuhan ATK</p>
+    <div id="page-role" class="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-600 to-blue-700 p-6">
+        <div class="text-center max-w-3xl w-full">
+            <div class="flex justify-center mb-6">
+                <i class="fa-solid fa-building-columns text-white text-5xl"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-white mb-6">Sistem Pengajuan ATK</h1>
+            
+            <!-- Jarak yang lebih pas -->
+            <p class="text-indigo-100 text-lg mb-5">Bagaimana mood kamu hari ini?</p>
+
+            <!-- Emoji Mood -->
+            <div class="grid grid-cols-5 gap-6 mb-10 justify-center">
+                <div onclick="showMoodMessage('joyful')" class="cursor-pointer group flex flex-col items-center">
+                    <div class="mood-emoji drop-shadow-2xl">😆</div>
+                    <p class="text-white mt-3 font-medium">Joyful</p>
                 </div>
-                <div onclick="showAdminLogin()" class="bg-white rounded-3xl p-10 cursor-pointer hover:shadow-2xl transition-all card-hover">
-                    <i class="fa-solid fa-shield-halved text-emerald-600 text-5xl mb-6"></i>
+                <div onclick="showMoodMessage('happy')" class="cursor-pointer group flex flex-col items-center">
+                    <div class="mood-emoji drop-shadow-2xl">😊</div>
+                    <p class="text-white mt-3 font-medium">Happy</p>
+                </div>
+                <div onclick="showMoodMessage('relaxed')" class="cursor-pointer group flex flex-col items-center">
+                    <div class="mood-emoji drop-shadow-2xl">😌</div>
+                    <p class="text-white mt-3 font-medium">Relaxed</p>
+                </div>
+                <div onclick="showMoodMessage('sad')" class="cursor-pointer group flex flex-col items-center">
+                    <div class="mood-emoji drop-shadow-2xl">😢</div>
+                    <p class="text-white mt-3 font-medium">Sad</p>
+                </div>
+                <div onclick="showMoodMessage('angry')" class="cursor-pointer group flex flex-col items-center">
+                    <div class="mood-emoji drop-shadow-2xl">😠</div>
+                    <p class="text-white mt-3 font-medium">Angry</p>
+                </div>
+            </div>
+
+            <p class="text-indigo-100 text-lg mb-6">Pilih peran Anda</p>
+
+            <!-- Role Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl mx-auto">
+                <div onclick="pilihRole('pengaju')" class="bg-white rounded-3xl p-8 cursor-pointer hover:shadow-2xl transition-all card-hover">
+                    <i class="fa-solid fa-user text-indigo-600 text-4xl mb-4"></i>
+                    <h3 class="text-2xl font-semibold text-gray-800">Pengaju</h3>
+                    <p class="text-gray-500 mt-1 text-sm">Ajukan kebutuhan ATK</p>
+                </div>
+                <div onclick="showAdminLogin()" class="bg-white rounded-3xl p-8 cursor-pointer hover:shadow-2xl transition-all card-hover">
+                    <i class="fa-solid fa-shield-halved text-emerald-600 text-4xl mb-4"></i>
                     <h3 class="text-2xl font-semibold text-gray-800">Admin</h3>
-                    <p class="text-gray-500 mt-2">Kelola ATK & Approval</p>
+                    <p class="text-gray-500 mt-1 text-sm">Kelola ATK & Approval</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- NAVBAR -->
+    <!-- MOOD POPUP -->
+    <div id="mood-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[300]">
+        <div class="bg-white rounded-3xl max-w-xs w-full mx-4 p-6 text-center shadow-2xl">
+            <div id="mood-emoji-big" class="text-7xl mb-4"></div>
+            <h3 id="mood-title" class="text-xl font-semibold mb-2"></h3>
+            <p id="mood-message" class="text-gray-600 text-sm leading-relaxed"></p>
+            
+            <button onclick="hideMoodModal()" 
+                    class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3.5 rounded-2xl font-semibold transition">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <!-- NAVBAR, HALAMAN PENGAJU, ADMIN, DAN MODAL LAINNYA -->
     <div id="navbar" class="hidden bg-white border-b sticky top-0 z-50 shadow">
         <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
             <div class="flex gap-10 text-lg font-medium">
@@ -107,7 +161,6 @@
                 <div onclick="switchAdminTab(1)" id="tab-admin-1" class="px-8 py-4 cursor-pointer">Approval Pengajuan</div>
             </div>
 
-            <!-- Tab Daftar ATK -->
             <div id="admin-tab-0">
                 <div class="flex justify-between mb-8">
                     <h2 class="text-2xl font-semibold">Daftar Jenis ATK & Stok</h2>
@@ -118,7 +171,6 @@
                 <div id="grid-atk-admin" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
             </div>
 
-            <!-- Tab Approval -->
             <div id="admin-tab-1" class="hidden">
                 <h2 class="text-2xl font-semibold mb-6">Daftar Pengajuan Menunggu Persetujuan</h2>
                 <div id="approval-list" class="space-y-6"></div>
@@ -126,7 +178,7 @@
         </div>
     </div>
 
-    <!-- MODAL LOGIN ADMIN -->
+    <!-- MODALS (Login, Tambah, Edit) -->
     <div id="modal-admin-login" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[200]">
         <div class="bg-white rounded-3xl w-full max-w-md mx-4 p-8">
             <h2 class="text-2xl font-semibold mb-6 text-center">Login Admin</h2>
@@ -147,7 +199,6 @@
         </div>
     </div>
 
-    <!-- MODAL TAMBAH ATK -->
     <div id="modal-tambah" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
         <div class="bg-white rounded-3xl w-full max-w-md mx-4 p-8">
             <h3 class="text-2xl font-semibold mb-6">Tambah Jenis ATK Baru</h3>
@@ -160,7 +211,6 @@
         </div>
     </div>
 
-    <!-- MODAL EDIT STOK -->
     <div id="modal-edit-stok" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[110]">
         <div class="bg-white rounded-3xl w-full max-w-sm mx-4 p-8">
             <h3 class="text-2xl font-semibold mb-4">Edit Stok</h3>
@@ -183,7 +233,36 @@
         let atkList = [];
         let selectedEditId = null;
 
-        // ================== NAVIGASI ==================
+        function showMoodMessage(mood) {
+            const modal = document.getElementById('mood-modal');
+            const emojiEl = document.getElementById('mood-emoji-big');
+            const titleEl = document.getElementById('mood-title');
+            const msgEl = document.getElementById('mood-message');
+
+            let emoji = "", title = "", message = "";
+
+            switch(mood) {
+                case 'joyful': emoji = "😆"; title = "Joyful!"; message = "Wah! Mood Joyful hari ini! Semoga pengajuan ATK-nya lancar dan menyenangkan ya! 🎉"; break;
+                case 'happy': emoji = "😊"; title = "Happy!"; message = "Senang mendengarnya! Semoga hari ini penuh kebahagiaan ✨"; break;
+                case 'relaxed': emoji = "😌"; title = "Relaxed"; message = "Mood rileks itu bagus. Ajukan kebutuhanmu dengan tenang 😊"; break;
+                case 'sad': emoji = "😢"; title = "Semangat!"; message = "Semoga hari ini segera membaik ❤️"; break;
+                case 'angry': emoji = "😠"; title = "Tenang ya..."; message = "Semoga setelah submit pengajuan moodnya membaik! 💪"; break;
+            }
+
+            emojiEl.textContent = emoji;
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function hideMoodModal() {
+            const modal = document.getElementById('mood-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
         function pilihRole(role) {
             currentRole = role;
             document.getElementById('page-role').classList.add('hidden');
@@ -227,7 +306,7 @@
             }
         }
 
-        // ================== PENGAJU ==================
+        // Fungsi-fungsi lain (pengaju & admin) tetap sama seperti sebelumnya
         function simpanNamaDanLanjut() {
             const nama = document.getElementById('nama-input').value.trim();
             const bagian = document.getElementById('bagian-input').value.trim();
@@ -345,14 +424,13 @@
                     mode: 'no-cors',
                     body: JSON.stringify(payload)
                 });
-                alert("✅ Pengajuan berhasil dikirim!.");
+                alert("✅ Pengajuan berhasil dikirim!");
                 resetPengajuForm();
             } catch (e) {
                 alert("Gagal mengirim pengajuan.");
             }
         }
 
-        // ================== ADMIN ==================
         function renderAdminATK() {
             const container = document.getElementById('grid-atk-admin');
             container.innerHTML = '';
@@ -467,7 +545,6 @@
             container.innerHTML = `<p class="text-center py-12 text-gray-400">Saat ini stok langsung terpotong saat pengaju submit.</p>`;
         }
 
-        // Inisialisasi
         window.onload = () => {
             loadATKFromSheet();
         };
