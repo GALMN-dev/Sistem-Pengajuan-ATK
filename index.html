@@ -297,7 +297,7 @@
                 div.innerHTML = `
                     <img src="${item.gambar}" class="atk-image ${isDisabled ? 'grayscale' : ''}" onerror="this.src='https://picsum.photos/id/237/300/300'">
                     <h4 class="font-semibold text-lg mb-2 mt-3">${item.nama}</h4>
-                    <p class="text-sm mb-4">Stok: <span class="${isDisabled ? 'text-red-500' : 'text-emerald-600'} font-semibold">${stok}</span></p>
+                    <p class="text-sm mb-4">Stok: <span class="${isDisabled ? 'text-red-500' : 'text-emerald-600'} font-semibold">${stok} ${item.satuan || 'pcs'}</span></p>
                     <div class="flex items-center justify-center gap-6 mb-6">
                         <button onclick="ubahQty('${item.id}', -1)" class="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-2xl text-3xl ${isDisabled ? 'opacity-30 cursor-not-allowed' : ''}">-</button>
                         <span id="qty-${item.id}" class="text-3xl font-bold w-12 text-center">${item.qty || 0}</span>
