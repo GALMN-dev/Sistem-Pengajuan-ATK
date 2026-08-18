@@ -679,7 +679,7 @@
             if (!namaPengajuSaatIni || !bagianPengaju) return showToast("Mohon isi nama dan bagian terlebih dahulu!", "error");
             const selected = atkList.filter(i => (i.qty || 0) > 0);
             if (selected.length === 0) return showToast("Pilih minimal 1 barang ATK!", "error");
-            showConfirm("Kirim Pengajuan?", "Pengajuan akan dikirim dan menunggu persetujuan Admin. Stok belum berkurang.", () => ajukanPengajuan(), "Kirim Sekarang");
+            showConfirm("Kirim Pengajuan?", "Pengajuan akan dikirim dan menunggu persetujuan Admin", () => ajukanPengajuan(), "Kirim Sekarang");
         }
 
         async function ajukanPengajuan() {
