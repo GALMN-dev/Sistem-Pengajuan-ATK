@@ -35,6 +35,7 @@
         }
         .role-card { transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .role-card:hover { transform: translateY(-12px) scale(1.03); }
+        .approval-item.selected { border-color: #4f46e5; background: #eef2ff; }
         @media (max-width: 1024px) {
             .sticky-cart { position: relative; top: 0; max-height: none; }
             .atk-image { height: 140px; }
@@ -208,11 +209,8 @@
             </div>
 
             <div id="pilih-atk-section" class="hidden">
-                
-                <!-- INFO AKTIVITAS TERBARU -->
                 <div id="info-aktivitas" class="mb-8">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                        <!-- ATK Baru -->
                         <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
                             <div class="flex items-center gap-2 mb-4">
                                 <span class="w-8 h-8 rounded-xl bg-indigo-100 flex items-center justify-center">
@@ -220,12 +218,8 @@
                                 </span>
                                 <h3 class="font-bold text-gray-800">ATK Baru</h3>
                             </div>
-                            <div id="list-atk-baru" class="space-y-3">
-                                <p class="text-sm text-gray-400">Memuat...</p>
-                            </div>
+                            <div id="list-atk-baru" class="space-y-3"><p class="text-sm text-gray-400">Memuat...</p></div>
                         </div>
-
-                        <!-- Stok Masuk -->
                         <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
                             <div class="flex items-center gap-2 mb-4">
                                 <span class="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center">
@@ -233,16 +227,9 @@
                                 </span>
                                 <h3 class="font-bold text-gray-800">Stok Masuk</h3>
                             </div>
-                            <div id="list-stok-masuk" class="space-y-3">
-                                <p class="text-sm text-gray-400">Memuat...</p>
-                            </div>
-                            <button id="btn-lihat-stok-masuk" onclick="showAllActivity('masuk')" 
-                                    class="hidden mt-3 w-full text-sm text-emerald-600 hover:text-emerald-700 font-medium py-2">
-                                Lihat Semua
-                            </button>
+                            <div id="list-stok-masuk" class="space-y-3"><p class="text-sm text-gray-400">Memuat...</p></div>
+                            <button id="btn-lihat-stok-masuk" onclick="showAllActivity('masuk')" class="hidden mt-3 w-full text-sm text-emerald-600 hover:text-emerald-700 font-medium py-2">Lihat Semua</button>
                         </div>
-
-                        <!-- Stok Keluar -->
                         <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
                             <div class="flex items-center gap-2 mb-4">
                                 <span class="w-8 h-8 rounded-xl bg-rose-100 flex items-center justify-center">
@@ -250,13 +237,8 @@
                                 </span>
                                 <h3 class="font-bold text-gray-800">Stok Keluar</h3>
                             </div>
-                            <div id="list-stok-keluar" class="space-y-3">
-                                <p class="text-sm text-gray-400">Memuat...</p>
-                            </div>
-                            <button id="btn-lihat-stok-keluar" onclick="showAllActivity('keluar')" 
-                                    class="hidden mt-3 w-full text-sm text-rose-600 hover:text-rose-700 font-medium py-2">
-                                Lihat Semua
-                            </button>
+                            <div id="list-stok-keluar" class="space-y-3"><p class="text-sm text-gray-400">Memuat...</p></div>
+                            <button id="btn-lihat-stok-keluar" onclick="showAllActivity('keluar')" class="hidden mt-3 w-full text-sm text-rose-600 hover:text-rose-700 font-medium py-2">Lihat Semua</button>
                         </div>
                     </div>
                 </div>
@@ -318,13 +300,34 @@
                 <div id="grid-atk-admin" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
             </div>
 
+            <!-- TAB APPROVAL (MULTI SELECT) -->
             <div id="admin-tab-1" class="hidden">
-                <div class="flex justify-between items-center mb-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                     <h2 class="text-xl font-bold">Menunggu Persetujuan</h2>
                     <button onclick="loadPendingPengajuan()" class="text-sm text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
                         <i class="fa-solid fa-rotate"></i> Refresh
                     </button>
                 </div>
+
+                <!-- Toolbar Multi Select -->
+                <div id="approval-toolbar" class="hidden bg-white rounded-2xl border border-gray-100 p-4 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+                    <label class="flex items-center gap-3 cursor-pointer select-none">
+                        <input type="checkbox" id="select-all-pending" onchange="toggleSelectAll(this.checked)" class="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <span class="text-sm font-medium text-gray-700">Pilih Semua</span>
+                        <span id="selected-count" class="text-xs text-gray-400">(0 dipilih)</span>
+                    </label>
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <button onclick="bulkApprove()" id="btn-bulk-approve" disabled
+                            class="flex-1 sm:flex-none px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-check"></i> Approve Terpilih
+                        </button>
+                        <button onclick="bulkReject()" id="btn-bulk-reject" disabled
+                            class="flex-1 sm:flex-none px-5 py-2.5 bg-red-50 hover:bg-red-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-red-600 text-sm font-semibold rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-xmark"></i> Reject Terpilih
+                        </button>
+                    </div>
+                </div>
+
                 <div id="approval-list" class="space-y-4"></div>
             </div>
         </div>
@@ -360,11 +363,10 @@
         </div>
     </div>
 
-    <!-- Toast -->
     <div id="toast-container" class="fixed bottom-6 right-6 z-[9999] space-y-3"></div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVFkPAtkhBucPzmRiMLMHMvPAmTWUbheCS_Mec1BXDu5EG0LdF_g7SXlJ6PawYTOSDWA/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw20G7PVpAg9YfwCc9azNEm8LXbiatU5PYVZfoLuOS5U3lkWf6Ejitc-ftH5mexHJJFjQ/exec";
 
         let currentRole = null;
         let namaPengajuSaatIni = "";
@@ -374,6 +376,7 @@
         let selectedEditId = null;
         let confirmCallback = null;
         let recentActivityData = { atkBaru: [], stokMasuk: [], stokKeluar: [] };
+        let pendingList = []; // data pending untuk multi-select
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
@@ -392,7 +395,6 @@
             document.getElementById('modal-confirm').classList.remove('hidden');
             document.getElementById('modal-confirm').classList.add('flex');
         }
-
         function hideConfirmModal(result) {
             document.getElementById('modal-confirm').classList.add('hidden');
             document.getElementById('modal-confirm').classList.remove('flex');
@@ -426,7 +428,6 @@
             document.getElementById('navbar').classList.remove('hidden');
             document.getElementById('pengaju-page').classList.add('hidden');
             document.getElementById('admin-page').classList.add('hidden');
-
             if (role === 'pengaju') {
                 document.getElementById('pengaju-page').classList.remove('hidden');
                 resetPengajuForm();
@@ -476,36 +477,28 @@
             renderAdminATK();
         }
 
-        // ===== Aktivitas Terbaru =====
         async function loadRecentActivity() {
             try {
                 const res = await fetch(GOOGLE_SCRIPT_URL + "?action=get_recent_activity&t=" + Date.now());
                 if (!res.ok) return;
                 recentActivityData = await res.json();
                 renderRecentActivity();
-            } catch (e) {
-                console.log("Gagal load aktivitas:", e);
-            }
+            } catch (e) {}
         }
 
         function renderRecentActivity() {
             const elBaru = document.getElementById('list-atk-baru');
             const atkBaru = recentActivityData.atkBaru || [];
-            if (atkBaru.length === 0) {
-                elBaru.innerHTML = `<p class="text-sm text-gray-400">Belum ada ATK baru</p>`;
-            } else {
-                elBaru.innerHTML = atkBaru.slice(0, 3).map(item => `
+            elBaru.innerHTML = atkBaru.length === 0
+                ? `<p class="text-sm text-gray-400">Belum ada ATK baru</p>`
+                : atkBaru.slice(0, 3).map(item => `
                     <div class="flex items-center gap-3">
-                        <img src="${item.gambar || 'https://picsum.photos/id/237/100/100'}" 
-                             class="w-11 h-11 rounded-xl object-cover bg-gray-100"
-                             onerror="this.src='https://picsum.photos/id/237/100/100'">
+                        <img src="${item.gambar || 'https://picsum.photos/id/237/100/100'}" class="w-11 h-11 rounded-xl object-cover bg-gray-100" onerror="this.src='https://picsum.photos/id/237/100/100'">
                         <div class="min-w-0 flex-1">
                             <p class="text-sm font-semibold text-gray-800 truncate">${item.nama}</p>
                             <p class="text-xs text-gray-400">Baru ditambahkan</p>
                         </div>
-                    </div>
-                `).join('');
-            }
+                    </div>`).join('');
 
             const elMasuk = document.getElementById('list-stok-masuk');
             const stokMasuk = recentActivityData.stokMasuk || [];
@@ -518,8 +511,7 @@
                     <div class="flex justify-between items-center text-sm">
                         <span class="text-gray-700 truncate pr-2">${item.nama}</span>
                         <span class="font-bold text-emerald-600 whitespace-nowrap">+${item.jumlah}</span>
-                    </div>
-                `).join('');
+                    </div>`).join('');
                 btnMasuk.classList.toggle('hidden', stokMasuk.length <= 3);
             }
 
@@ -534,8 +526,7 @@
                     <div class="flex justify-between items-center text-sm">
                         <span class="text-gray-700 truncate pr-2">${item.nama}</span>
                         <span class="font-bold text-rose-600 whitespace-nowrap">-${item.jumlah}</span>
-                    </div>
-                `).join('');
+                    </div>`).join('');
                 btnKeluar.classList.toggle('hidden', stokKeluar.length <= 3);
             }
         }
@@ -543,36 +534,22 @@
         function showAllActivity(type) {
             const title = document.getElementById('modal-activity-title');
             const list = document.getElementById('modal-activity-list');
-            let data = [];
-            let label = "";
-            if (type === 'masuk') {
-                data = recentActivityData.stokMasuk || [];
-                title.textContent = "Semua Stok Masuk";
-                label = "+";
-            } else {
-                data = recentActivityData.stokKeluar || [];
-                title.textContent = "Semua Stok Keluar";
-                label = "-";
-            }
-            if (data.length === 0) {
-                list.innerHTML = `<p class="text-sm text-gray-400 text-center py-6">Tidak ada data</p>`;
-            } else {
-                list.innerHTML = data.map(item => `
+            let data = type === 'masuk' ? (recentActivityData.stokMasuk || []) : (recentActivityData.stokKeluar || []);
+            title.textContent = type === 'masuk' ? "Semua Stok Masuk" : "Semua Stok Keluar";
+            const label = type === 'masuk' ? "+" : "-";
+            list.innerHTML = data.length === 0
+                ? `<p class="text-sm text-gray-400 text-center py-6">Tidak ada data</p>`
+                : data.map(item => `
                     <div class="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
                         <div class="min-w-0 pr-3">
                             <p class="text-sm font-medium text-gray-800 truncate">${item.nama}</p>
                             <p class="text-xs text-gray-400">${item.tanggal || ''}</p>
                         </div>
-                        <span class="font-bold ${type === 'masuk' ? 'text-emerald-600' : 'text-rose-600'} whitespace-nowrap">
-                            ${label}${item.jumlah}
-                        </span>
-                    </div>
-                `).join('');
-            }
+                        <span class="font-bold ${type === 'masuk' ? 'text-emerald-600' : 'text-rose-600'} whitespace-nowrap">${label}${item.jumlah}</span>
+                    </div>`).join('');
             document.getElementById('modal-all-activity').classList.remove('hidden');
             document.getElementById('modal-all-activity').classList.add('flex');
         }
-
         function hideAllActivity() {
             document.getElementById('modal-all-activity').classList.add('hidden');
             document.getElementById('modal-all-activity').classList.remove('flex');
@@ -663,16 +640,14 @@
                 cartItems.innerHTML = `<div class="text-center py-10 text-gray-400"><i class="fa-solid fa-cart-shopping text-3xl mb-3 opacity-40"></i><p class="text-sm">Keranjang masih kosong</p></div>`;
                 return;
             }
-            let html = '';
-            selected.forEach(item => {
+            cartItems.innerHTML = selected.map(item => {
                 const nama = item['Nama Barang'] || item.nama || 'Item';
                 const id = item['ID'] || item.id || '';
-                html += `<div class="flex gap-3 bg-slate-50 rounded-2xl p-3 items-center">
+                return `<div class="flex gap-3 bg-slate-50 rounded-2xl p-3 items-center">
                     <div class="flex-1 min-w-0"><p class="font-medium text-sm truncate">${nama}</p><p class="text-xs text-gray-500">Qty: <span class="font-bold">${item.qty}</span></p></div>
                     <button onclick="ubahQty('${id}', -${item.qty})" class="text-red-500 hover:text-red-600 text-lg w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-50 transition">×</button>
                 </div>`;
-            });
-            cartItems.innerHTML = html;
+            }).join('');
         }
 
         function showKonfirmasiPengajuan() {
@@ -766,8 +741,7 @@
         }
         function ubahStokModal(delta) {
             const input = document.getElementById('input-stok');
-            let val = parseInt(input.value) || 0;
-            input.value = Math.max(0, val + delta);
+            input.value = Math.max(0, (parseInt(input.value) || 0) + delta);
         }
 
         async function simpanStok() {
@@ -838,43 +812,144 @@
             }, "Ya, Hapus");
         }
 
-        // ===== Approval =====
+        // ===== APPROVAL + MULTI SELECT =====
         async function loadPendingPengajuan() {
             const container = document.getElementById('approval-list');
+            const toolbar = document.getElementById('approval-toolbar');
             container.innerHTML = `<div class="text-center py-12 text-gray-400"><i class="fa-solid fa-spinner fa-spin text-2xl mb-3"></i><p>Memuat data...</p></div>`;
+            toolbar.classList.add('hidden');
+            pendingList = [];
+
             try {
                 const res = await fetch(GOOGLE_SCRIPT_URL + "?action=get_pending&t=" + Date.now());
                 const data = await res.json();
-                if (!data || data.length === 0) {
+                pendingList = data || [];
+
+                if (!pendingList.length) {
                     container.innerHTML = `<div class="bg-white rounded-3xl p-10 text-center text-gray-400 border border-gray-100">
                         <i class="fa-solid fa-inbox text-5xl mb-4 opacity-40"></i>
                         <p class="text-sm">Tidak ada pengajuan yang menunggu persetujuan</p>
                     </div>`;
                     return;
                 }
-                let html = '';
-                data.forEach(item => {
-                    html += `
-                    <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                            <div>
-                                <p class="font-bold text-gray-800">${item.nama_pengaju} <span class="text-gray-400 font-normal text-sm">· ${item.bagian}</span></p>
-                                <p class="text-sm text-gray-600 mt-1">${item.nama_barang} <span class="font-semibold">× ${item.jumlah}</span></p>
-                                <p class="text-xs text-gray-400 mt-1">${item.tanggal} · Alasan: ${item.alasan || '-'}</p>
-                            </div>
-                            <div class="flex gap-2">
-                                <button onclick="approveItem(${item.row}, '${String(item.nama_barang).replace(/'/g,"\\'")}', ${item.jumlah})" 
+
+                toolbar.classList.remove('hidden');
+                document.getElementById('select-all-pending').checked = false;
+                updateSelectedCount();
+
+                container.innerHTML = pendingList.map((item, index) => `
+                    <div class="approval-item bg-white rounded-2xl p-5 border border-gray-100 shadow-sm transition" data-index="${index}" id="pending-item-${index}">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                            <label class="flex items-start gap-3 cursor-pointer flex-1 min-w-0">
+                                <input type="checkbox" class="pending-checkbox mt-1 w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 flex-shrink-0"
+                                    data-index="${index}" onchange="onCheckboxChange()">
+                                <div class="min-w-0">
+                                    <p class="font-bold text-gray-800">${item.nama_pengaju || '-'} <span class="text-gray-400 font-normal text-sm">· ${item.bagian || '-'}</span></p>
+                                    <p class="text-sm text-gray-600 mt-1">${item.nama_barang || '-'} <span class="font-semibold">× ${item.jumlah || 0}</span></p>
+                                    <p class="text-xs text-gray-400 mt-1">${item.tanggal || ''} · Alasan: ${item.alasan || '-'}</p>
+                                </div>
+                            </label>
+                            <div class="flex gap-2 flex-shrink-0">
+                                <button onclick="approveItem(${item.row}, '${String(item.nama_barang || '').replace(/'/g,"\\'")}', ${item.jumlah || 0})" 
                                     class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition">Approve</button>
                                 <button onclick="rejectItem(${item.row})" 
                                     class="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold rounded-xl transition">Reject</button>
                             </div>
                         </div>
-                    </div>`;
-                });
-                container.innerHTML = html;
+                    </div>
+                `).join('');
             } catch (e) {
                 container.innerHTML = `<div class="text-center py-12 text-red-400"><p>Gagal memuat data pending</p></div>`;
             }
+        }
+
+        function onCheckboxChange() {
+            document.querySelectorAll('.pending-checkbox').forEach(cb => {
+                const item = document.getElementById('pending-item-' + cb.dataset.index);
+                if (item) item.classList.toggle('selected', cb.checked);
+            });
+            const all = document.querySelectorAll('.pending-checkbox');
+            const checked = document.querySelectorAll('.pending-checkbox:checked');
+            document.getElementById('select-all-pending').checked = all.length > 0 && checked.length === all.length;
+            updateSelectedCount();
+        }
+
+        function toggleSelectAll(checked) {
+            document.querySelectorAll('.pending-checkbox').forEach(cb => {
+                cb.checked = checked;
+                const item = document.getElementById('pending-item-' + cb.dataset.index);
+                if (item) item.classList.toggle('selected', checked);
+            });
+            updateSelectedCount();
+        }
+
+        function updateSelectedCount() {
+            const count = document.querySelectorAll('.pending-checkbox:checked').length;
+            document.getElementById('selected-count').textContent = `(${count} dipilih)`;
+            const hasSelection = count > 0;
+            document.getElementById('btn-bulk-approve').disabled = !hasSelection;
+            document.getElementById('btn-bulk-reject').disabled = !hasSelection;
+        }
+
+        function getSelectedPending() {
+            const selected = [];
+            document.querySelectorAll('.pending-checkbox:checked').forEach(cb => {
+                const idx = parseInt(cb.dataset.index);
+                if (pendingList[idx]) selected.push(pendingList[idx]);
+            });
+            return selected;
+        }
+
+        function bulkApprove() {
+            const selected = getSelectedPending();
+            if (selected.length === 0) return showToast("Pilih minimal 1 pengajuan", "error");
+            showConfirm(
+                "Approve Terpilih?",
+                `${selected.length} pengajuan akan disetujui dan stok akan dikurangi. Lanjutkan?`,
+                async () => {
+                    showToast(`Memproses ${selected.length} pengajuan...`);
+                    for (const item of selected) {
+                        try {
+                            await fetch(GOOGLE_SCRIPT_URL, {
+                                method: 'POST', mode: 'no-cors',
+                                body: JSON.stringify({
+                                    action: "approve",
+                                    row: item.row,
+                                    nama_barang: item.nama_barang,
+                                    jumlah: item.jumlah
+                                })
+                            });
+                        } catch (e) {}
+                    }
+                    showToast(`✅ ${selected.length} pengajuan berhasil di-approve`);
+                    loadPendingPengajuan();
+                    setTimeout(() => loadATKFromSheet(), 1000);
+                },
+                "Ya, Approve Semua"
+            );
+        }
+
+        function bulkReject() {
+            const selected = getSelectedPending();
+            if (selected.length === 0) return showToast("Pilih minimal 1 pengajuan", "error");
+            showConfirm(
+                "Reject Terpilih?",
+                `${selected.length} pengajuan akan ditolak. Stok tidak berubah.`,
+                async () => {
+                    showToast(`Memproses ${selected.length} pengajuan...`);
+                    for (const item of selected) {
+                        try {
+                            await fetch(GOOGLE_SCRIPT_URL, {
+                                method: 'POST', mode: 'no-cors',
+                                body: JSON.stringify({ action: "reject", row: item.row })
+                            });
+                        } catch (e) {}
+                    }
+                    showToast(`${selected.length} pengajuan ditolak`);
+                    loadPendingPengajuan();
+                },
+                "Ya, Reject Semua"
+            );
         }
 
         async function approveItem(row, namaBarang, jumlah) {
