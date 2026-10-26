@@ -8,34 +8,99 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #f8fafc; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+            background: #f0f7ff;
+        }
+
+        /* Background ATK pattern */
+        .atk-bg {
+            background-color: #1e3a8a;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.35) 0%, transparent 45%),
+                radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.3) 0%, transparent 45%),
+                linear-gradient(135deg, #1e40af 0%, #1d4ed8 40%, #2563eb 70%, #3b82f6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .atk-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M20 20h8v8h-8zM52 20h8v8h-8zM20 52h8v8h-8zM52 52h8v8h-8zM36 36h8v8h-8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        .atk-bg::after {
+            content: '✏️ 📎 📏 📝 📌 ✂️';
+            position: absolute;
+            bottom: 8%;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 1.6rem;
+            letter-spacing: 1.8rem;
+            opacity: 0.12;
+            pointer-events: none;
+            user-select: none;
+        }
+
         .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15); }
-        .atk-image { width: 100%; height: 160px; object-fit: cover; border-radius: 16px; transition: all 0.3s; }
-        .atk-image.grayscale { filter: grayscale(100%); }
-        .mood-emoji { font-size: 2.8rem; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .mood-emoji:hover { transform: scale(1.35) rotate(12deg); }
-        .toast { animation: slideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-        @keyframes slideIn { from { transform: translateY(40px) scale(0.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
-        .sticky-cart { position: sticky; top: 100px; max-height: calc(100vh - 120px); overflow-y: auto; }
-        .nav-active { border-bottom: 3px solid #4f46e5; color: #4f46e5; font-weight: 600; }
-        .hero-gradient {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 40%, #2563eb 100%);
-            position: relative; overflow: hidden;
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgb(30 64 175 / 0.25); }
+
+        .atk-image { width: 100%; height: 160px; object-fit: cover; border-radius: 16px; }
+        .atk-image.grayscale { filter: grayscale(100%); opacity: 0.7; }
+
+        .mood-emoji { font-size: 2.5rem; transition: all 0.3s ease; cursor: pointer; }
+        .mood-emoji:hover { transform: scale(1.25); }
+
+        .toast { animation: slideIn 0.3s ease forwards; }
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
-        .hero-gradient::before {
-            content: ''; position: absolute; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
-            top: -200px; right: -100px; border-radius: 50%;
+
+        .sticky-cart {
+            position: sticky;
+            top: 90px;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
         }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+
+        .nav-active {
+            border-bottom: 3px solid #2563eb;
+            color: #2563eb;
+            font-weight: 700;
         }
-        .role-card { transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .role-card:hover { transform: translateY(-12px) scale(1.03); }
-        .approval-item.selected { border-color: #4f46e5; background: #eef2ff; }
+
+        .glass {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .location-card {
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .location-card:hover {
+            transform: translateY(-12px) scale(1.02);
+        }
+
+        .approval-item.selected {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .stok-badge {
+            font-size: 12px;
+            font-weight: 800;
+            padding: 5px 10px;
+            border-radius: 999px;
+        }
+        .stok-aman { background: #dcfce7; color: #15803d; }
+        .stok-tipis { background: #fef3c7; color: #b45309; }
+        .stok-habis { background: #fee2e2; color: #b91c1c; }
+
         @media (max-width: 1024px) {
             .sticky-cart { position: relative; top: 0; max-height: none; }
             .atk-image { height: 140px; }
@@ -44,234 +109,230 @@
 </head>
 <body class="min-h-screen">
 
-    <!-- LANDING PAGE -->
-    <div id="page-role" class="hero-gradient flex items-center justify-center min-h-screen p-6 relative">
-        <div class="text-center max-w-4xl w-full relative z-10">
-            <div class="mb-8">
-                <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-white/20 backdrop-blur mb-6 shadow-xl">
-                    <i class="fa-solid fa-box-open text-white text-3xl"></i>
-                </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-3">Pengajuan ATK</h1>
-                <p class="text-indigo-100 text-lg md:text-xl max-w-xl mx-auto">Sistem modern untuk mengelola kebutuhan alat tulis kantor dengan mudah dan cepat</p>
+    <!-- ===================== LANDING: PILIH LOKASI ===================== -->
+    <div id="page-role" class="atk-bg min-h-screen flex items-center justify-center p-6 relative">
+        <div class="text-center max-w-3xl w-full relative z-10">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/20 backdrop-blur mb-6 shadow-xl">
+                <i class="fa-solid fa-box-open text-white text-2xl"></i>
             </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">Pengajuan ATK</h1>
+            <p class="text-blue-100 text-lg mb-10 max-w-lg mx-auto">Sistem modern untuk mengelola kebutuhan alat tulis kantor dengan mudah dan cepat</p>
 
-            <div class="glass-card rounded-3xl p-6 mb-10 max-w-2xl mx-auto">
-                <p class="text-white/90 text-sm font-medium mb-5 tracking-wide uppercase">Bagaimana mood kamu hari ini?</p>
-                <div class="grid grid-cols-5 gap-3">
-                    <div onclick="showMoodMessage('joyful')" class="cursor-pointer flex flex-col items-center group">
+            <!-- Mood (opsional, tetap ada) -->
+            <div class="glass rounded-2xl p-5 mb-10 max-w-xl mx-auto">
+                <p class="text-white/80 text-xs font-semibold mb-4 tracking-wider uppercase">Bagaimana mood kamu hari ini?</p>
+                <div class="grid grid-cols-5 gap-2">
+                    <div onclick="showMoodMessage('joyful')" class="flex flex-col items-center">
                         <div class="mood-emoji">😆</div>
-                        <p class="text-white/80 text-xs mt-2 group-hover:text-white transition">Joyful</p>
+                        <span class="text-white/70 text-xs mt-1">Joyful</span>
                     </div>
-                    <div onclick="showMoodMessage('happy')" class="cursor-pointer flex flex-col items-center group">
+                    <div onclick="showMoodMessage('happy')" class="flex flex-col items-center">
                         <div class="mood-emoji">😊</div>
-                        <p class="text-white/80 text-xs mt-2 group-hover:text-white transition">Happy</p>
+                        <span class="text-white/70 text-xs mt-1">Happy</span>
                     </div>
-                    <div onclick="showMoodMessage('relaxed')" class="cursor-pointer flex flex-col items-center group">
+                    <div onclick="showMoodMessage('relaxed')" class="flex flex-col items-center">
                         <div class="mood-emoji">😌</div>
-                        <p class="text-white/80 text-xs mt-2 group-hover:text-white transition">Relaxed</p>
+                        <span class="text-white/70 text-xs mt-1">Relaxed</span>
                     </div>
-                    <div onclick="showMoodMessage('sad')" class="cursor-pointer flex flex-col items-center group">
+                    <div onclick="showMoodMessage('sad')" class="flex flex-col items-center">
                         <div class="mood-emoji">😢</div>
-                        <p class="text-white/80 text-xs mt-2 group-hover:text-white transition">Sad</p>
+                        <span class="text-white/70 text-xs mt-1">Sad</span>
                     </div>
-                    <div onclick="showMoodMessage('angry')" class="cursor-pointer flex flex-col items-center group">
+                    <div onclick="showMoodMessage('angry')" class="flex flex-col items-center">
                         <div class="mood-emoji">😠</div>
-                        <p class="text-white/80 text-xs mt-2 group-hover:text-white transition">Angry</p>
+                        <span class="text-white/70 text-xs mt-1">Angry</span>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <div onclick="pilihRole('pengaju')" class="role-card bg-white rounded-3xl p-8 cursor-pointer shadow-xl group">
-                    <div class="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-indigo-600 transition-colors duration-300">
-                        <i class="fa-solid fa-user text-indigo-600 text-2xl group-hover:text-white transition-colors"></i>
+            <p class="text-white/90 text-sm font-medium mb-5">Pilih sesuai lokasi pengajuan</p>
+
+            <!-- 2 Kartu Lokasi -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-xl mx-auto">
+                <div onclick="pilihLokasi('Garut')" class="location-card bg-white rounded-2xl p-8 cursor-pointer shadow-2xl group">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 transition">
+                        <i class="fa-solid fa-location-dot text-blue-600 text-xl group-hover:text-white transition"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-1">Pengaju</h3>
-                    <p class="text-gray-500 text-sm">Ajukan kebutuhan ATK dengan mudah</p>
+                    <h3 class="text-xl font-bold text-gray-900">Garut</h3>
+                    <p class="text-gray-500 text-sm mt-1">Penyimpanan ATK Garut</p>
+                    <p class="mt-4 text-blue-600 text-sm font-semibold opacity-0 group-hover:opacity-100 transition">Masuk →</p>
                 </div>
-                <div onclick="showAdminLogin()" class="role-card bg-white rounded-3xl p-8 cursor-pointer shadow-xl group">
-                    <div class="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-emerald-600 transition-colors duration-300">
-                        <i class="fa-solid fa-shield-halved text-emerald-600 text-2xl group-hover:text-white transition-colors"></i>
+                <div onclick="pilihLokasi('Bandung')" class="location-card bg-white rounded-2xl p-8 cursor-pointer shadow-2xl group">
+                    <div class="w-14 h-14 bg-sky-100 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-sky-600 transition">
+                        <i class="fa-solid fa-city text-sky-600 text-xl group-hover:text-white transition"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-1">Admin</h3>
-                    <p class="text-gray-500 text-sm">Kelola stok, ATK & approval</p>
+                    <h3 class="text-xl font-bold text-gray-900">Bandung</h3>
+                    <p class="text-gray-500 text-sm mt-1">Penyimpanan ATK Bandung</p>
+                    <p class="mt-4 text-sky-600 text-sm font-semibold opacity-0 group-hover:opacity-100 transition">Masuk →</p>
                 </div>
             </div>
-            <p class="text-white/50 text-xs mt-12">© 2026 Sistem Pengajuan ATK</p>
+
+            <p class="text-white/40 text-xs mt-12">© 2026 Sistem Pengajuan ATK</p>
         </div>
     </div>
 
-    <!-- MOOD POPUP -->
-    <div id="mood-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-[300]">
-        <div class="bg-white rounded-3xl max-w-xs w-full mx-4 p-7 text-center shadow-2xl">
-            <div id="mood-emoji-big" class="text-7xl mb-4"></div>
-            <h3 id="mood-title" class="text-xl font-bold mb-2"></h3>
-            <p id="mood-message" class="text-gray-600 text-sm leading-relaxed"></p>
-            <button onclick="hideMoodModal()" class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3.5 rounded-2xl font-semibold transition">Tutup</button>
+    <!-- MOOD MODAL -->
+    <div id="mood-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-[300] p-4">
+        <div class="bg-white rounded-2xl max-w-xs w-full p-6 text-center shadow-2xl">
+            <div id="mood-emoji-big" class="text-6xl mb-3"></div>
+            <h3 id="mood-title" class="text-lg font-bold mb-1"></h3>
+            <p id="mood-message" class="text-gray-500 text-sm"></p>
+            <button onclick="hideMoodModal()" class="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition">Tutup</button>
         </div>
     </div>
 
-    <!-- MODAL LOGIN ADMIN -->
-    <div id="modal-admin-login" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[200]">
-        <div class="bg-white rounded-3xl w-full max-w-md mx-4 p-8 shadow-2xl">
-            <div class="text-center mb-7">
-                <div class="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-lock text-emerald-600 text-2xl"></i>
+    <!-- LOGIN ADMIN (per lokasi) -->
+    <div id="modal-admin-login" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-[200] p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-7 shadow-2xl">
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fa-solid fa-lock text-blue-600 text-xl"></i>
                 </div>
-                <h2 class="text-2xl font-bold">Login Admin</h2>
-                <p class="text-gray-500 text-sm mt-1">Masuk untuk mengelola sistem</p>
+                <h2 class="text-xl font-bold">Login Admin <span id="login-lokasi-label" class="text-blue-600"></span></h2>
+                <p class="text-gray-500 text-sm mt-1">Masuk untuk mengelola stok lokasi ini</p>
             </div>
-            <div class="space-y-5">
-                <div>
-                    <label class="block text-sm font-medium mb-2 text-gray-700">Username</label>
-                    <input id="admin-username" type="text" placeholder="Masukkan username" class="w-full px-5 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-emerald-500 transition">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-2 text-gray-700">Password</label>
-                    <input id="admin-password" type="password" placeholder="Masukkan password" class="w-full px-5 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-emerald-500 transition">
-                </div>
+            <div class="space-y-4">
+                <input id="admin-username" type="text" placeholder="Username" class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition">
+                <input id="admin-password" type="password" placeholder="Password" class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition">
             </div>
-            <div class="mt-8 flex gap-3">
-                <button onclick="hideAdminLogin()" class="flex-1 py-4 text-gray-600 font-medium rounded-2xl border border-gray-200 hover:bg-gray-50 transition">Batal</button>
-                <button onclick="cekLoginAdmin()" class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-2xl transition">Login</button>
+            <div class="mt-6 flex gap-3">
+                <button onclick="hideAdminLogin()" class="flex-1 py-3.5 text-gray-600 font-medium rounded-xl border border-gray-200 hover:bg-gray-50">Batal</button>
+                <button onclick="cekLoginAdmin()" class="flex-1 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl">Login</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL KONFIRMASI MODERN -->
-    <div id="modal-confirm" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[400]">
-        <div class="bg-white rounded-3xl w-full max-w-sm mx-4 p-7 shadow-2xl text-center">
-            <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-amber-100">
-                <i class="fa-solid fa-triangle-exclamation text-amber-600 text-2xl"></i>
+    <!-- CONFIRM MODAL -->
+    <div id="modal-confirm" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-[400] p-4">
+        <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl text-center">
+            <div class="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-triangle-exclamation text-amber-600 text-xl"></i>
             </div>
-            <h3 id="confirm-title" class="text-xl font-bold mb-2">Konfirmasi</h3>
-            <p id="confirm-message" class="text-gray-600 text-sm mb-7"></p>
+            <h3 id="confirm-title" class="text-lg font-bold mb-2">Konfirmasi</h3>
+            <p id="confirm-message" class="text-gray-500 text-sm mb-6"></p>
             <div class="flex gap-3">
-                <button onclick="hideConfirmModal(false)" class="flex-1 py-3.5 text-gray-600 font-medium rounded-2xl border border-gray-200 hover:bg-gray-50 transition">Batal</button>
-                <button id="confirm-ok-btn" onclick="hideConfirmModal(true)" class="flex-1 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl transition">Ya, Lanjutkan</button>
+                <button onclick="hideConfirmModal(false)" class="flex-1 py-3 text-gray-600 font-medium rounded-xl border border-gray-200 hover:bg-gray-50">Batal</button>
+                <button id="confirm-ok-btn" onclick="hideConfirmModal(true)" class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl">Ya</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL LIHAT SEMUA AKTIVITAS -->
-    <div id="modal-all-activity" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[150] p-4">
-        <div class="bg-white rounded-3xl w-full max-w-md mx-auto p-6 shadow-2xl max-h-[80vh] flex flex-col">
-            <div class="flex items-center justify-between mb-5">
-                <h3 id="modal-activity-title" class="text-lg font-bold">Semua Aktivitas</h3>
-                <button onclick="hideAllActivity()" class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
+    <!-- MODAL ALL ACTIVITY -->
+    <div id="modal-all-activity" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-[150] p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-5 shadow-2xl max-h-[75vh] flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+                <h3 id="modal-activity-title" class="font-bold text-lg">Semua Aktivitas</h3>
+                <button onclick="hideAllActivity()" class="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center">
                     <i class="fa-solid fa-xmark text-gray-600"></i>
                 </button>
             </div>
-            <div id="modal-activity-list" class="overflow-y-auto space-y-3 flex-1"></div>
+            <div id="modal-activity-list" class="overflow-y-auto space-y-2 flex-1"></div>
         </div>
     </div>
 
-    <!-- NAVBAR -->
-    <div id="navbar" class="hidden bg-white/90 backdrop-blur border-b sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex gap-8 text-sm font-semibold">
-                <span onclick="pilihRole('pengaju')" class="cursor-pointer hover:text-indigo-600 flex items-center gap-2 transition">
-                    <i class="fa-solid fa-user"></i> Pengaju
-                </span>
-                <span id="admin-nav" onclick="pilihRole('admin')" class="cursor-pointer hover:text-emerald-600 flex items-center gap-2 hidden transition">
-                    <i class="fa-solid fa-shield-halved"></i> Admin
-                </span>
+    <!-- NAVBAR (setelah pilih lokasi) -->
+    <div id="navbar" class="hidden bg-white border-b sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-5 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button onclick="kembaliKeLanding()" class="text-gray-500 hover:text-blue-600 text-sm flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-arrow-left"></i> Lokasi
+                </button>
+                <span class="text-gray-300">|</span>
+                <span id="badge-lokasi" class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full"></span>
             </div>
-            <button onclick="logout()" class="flex items-center gap-2 text-gray-500 hover:text-red-600 text-sm transition">
-                <i class="fa-solid fa-right-from-bracket"></i> Keluar
-            </button>
+            <div class="flex items-center gap-3">
+                <!-- Icon Admin pojok kanan atas -->
+                <button id="btn-admin-icon" onclick="showAdminLogin()" class="w-10 h-10 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 flex items-center justify-center transition" title="Login Admin">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </button>
+                <button onclick="logout()" class="text-gray-500 hover:text-red-600 text-sm flex items-center gap-1.5">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- HALAMAN PENGAJU -->
-    <div id="pengaju-page" class="hidden min-h-screen bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-1">Pengajuan ATK</h1>
-            <p id="nama-pengaju-header" class="text-gray-500 mb-8 min-h-[24px]"></p>
+    <!-- ===================== HALAMAN PENGAJU ===================== -->
+    <div id="pengaju-page" class="hidden min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-5 py-7">
+            <h1 class="text-2xl font-extrabold text-gray-900 mb-1">Pengajuan ATK</h1>
+            <p id="nama-pengaju-header" class="text-gray-500 text-sm mb-7 min-h-[20px]"></p>
 
-            <div id="nama-form" class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100 mb-10">
-                <h2 class="text-xl font-bold mb-6">Data Pengaju</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div id="nama-form" class="bg-white rounded-2xl p-6 shadow-sm border border-blue-50 mb-8">
+                <h2 class="font-bold text-lg mb-5 text-gray-900">Data Pengaju</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium mb-2 text-gray-700">Nama Lengkap <span class="text-red-500">*</span></label>
-                        <input id="nama-input" type="text" placeholder="Masukkan nama lengkap Anda..." class="w-full px-5 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-indigo-500 text-lg transition">
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Nama Lengkap <span class="text-red-500">*</span></label>
+                        <input id="nama-input" type="text" placeholder="Nama lengkap..." class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-2 text-gray-700">Bagian / Unit Kerja <span class="text-red-500">*</span></label>
-                        <input id="bagian-input" type="text" placeholder="Contoh: Keuangan, IT, HRD" class="w-full px-5 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-indigo-500 text-lg transition">
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Bagian / Unit Kerja <span class="text-red-500">*</span></label>
+                        <input id="bagian-input" type="text" placeholder="Contoh: Keuangan, IT..." class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 transition">
                     </div>
                 </div>
-                <div class="mt-8 flex justify-end">
-                    <button onclick="simpanNamaDanLanjut()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl font-semibold flex items-center gap-3 transition shadow-lg shadow-indigo-200">
-                        <i class="fa-solid fa-arrow-right"></i> Simpan & Lanjut Pilih ATK
+                <div class="mt-6 flex justify-end">
+                    <button onclick="simpanNamaDanLanjut()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-xl font-semibold flex items-center gap-2 transition shadow-lg shadow-blue-200">
+                        Lanjut Pilih ATK <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
 
             <div id="pilih-atk-section" class="hidden">
-                <div id="info-aktivitas" class="mb-8">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                        <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
-                            <div class="flex items-center gap-2 mb-4">
-                                <span class="w-8 h-8 rounded-xl bg-indigo-100 flex items-center justify-center">
-                                    <i class="fa-solid fa-sparkles text-indigo-600 text-sm"></i>
-                                </span>
-                                <h3 class="font-bold text-gray-800">ATK Baru</h3>
-                            </div>
-                            <div id="list-atk-baru" class="space-y-3"><p class="text-sm text-gray-400">Memuat...</p></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm"><i class="fa-solid fa-sparkles"></i></span>
+                            <h3 class="font-bold text-blue-900 text-sm">ATK Baru</h3>
                         </div>
-                        <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
-                            <div class="flex items-center gap-2 mb-4">
-                                <span class="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center">
-                                    <i class="fa-solid fa-arrow-down text-emerald-600 text-sm"></i>
-                                </span>
-                                <h3 class="font-bold text-gray-800">Stok Masuk</h3>
-                            </div>
-                            <div id="list-stok-masuk" class="space-y-3"><p class="text-sm text-gray-400">Memuat...</p></div>
-                            <button id="btn-lihat-stok-masuk" onclick="showAllActivity('masuk')" class="hidden mt-3 w-full text-sm text-emerald-600 hover:text-emerald-700 font-medium py-2">Lihat Semua</button>
+                        <div id="list-atk-baru" class="space-y-2.5"><p class="text-sm text-blue-400">Memuat...</p></div>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center text-sm"><i class="fa-solid fa-arrow-down"></i></span>
+                            <h3 class="font-bold text-emerald-900 text-sm">Stok Masuk</h3>
                         </div>
-                        <div class="bg-white rounded-3xl border border-gray-100 p-5 shadow-sm">
-                            <div class="flex items-center gap-2 mb-4">
-                                <span class="w-8 h-8 rounded-xl bg-rose-100 flex items-center justify-center">
-                                    <i class="fa-solid fa-arrow-up text-rose-600 text-sm"></i>
-                                </span>
-                                <h3 class="font-bold text-gray-800">Stok Keluar</h3>
-                            </div>
-                            <div id="list-stok-keluar" class="space-y-3"><p class="text-sm text-gray-400">Memuat...</p></div>
-                            <button id="btn-lihat-stok-keluar" onclick="showAllActivity('keluar')" class="hidden mt-3 w-full text-sm text-rose-600 hover:text-rose-700 font-medium py-2">Lihat Semua</button>
+                        <div id="list-stok-masuk" class="space-y-2"><p class="text-sm text-emerald-600/60">Memuat...</p></div>
+                        <button id="btn-lihat-stok-masuk" onclick="showAllActivity('masuk')" class="hidden mt-2 text-sm text-emerald-700 font-semibold">Lihat Semua →</button>
+                    </div>
+                    <div class="bg-rose-50 border border-rose-100 rounded-2xl p-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center text-sm"><i class="fa-solid fa-arrow-up"></i></span>
+                            <h3 class="font-bold text-rose-900 text-sm">Stok Keluar</h3>
                         </div>
+                        <div id="list-stok-keluar" class="space-y-2"><p class="text-sm text-rose-600/60">Memuat...</p></div>
+                        <button id="btn-lihat-stok-keluar" onclick="showAllActivity('keluar')" class="hidden mt-2 text-sm text-rose-700 font-semibold">Lihat Semua →</button>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     <div class="lg:col-span-8">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                            <h2 class="text-2xl font-bold">Pilih ATK</h2>
-                            <div class="relative w-full sm:w-72">
-                                <input id="search-input" type="text" placeholder="Cari nama ATK..." onkeyup="cariATK()" class="w-full px-5 py-3.5 pl-12 border border-gray-200 rounded-2xl focus:outline-none focus:border-indigo-500 transition">
-                                <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-gray-400"></i>
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5">
+                            <h2 class="text-xl font-bold text-gray-900">Pilih ATK</h2>
+                            <div class="relative w-full sm:w-64">
+                                <input id="search-input" type="text" placeholder="Cari ATK..." onkeyup="cariATK()" class="w-full px-4 py-3 pl-10 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 bg-white text-sm">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
                             </div>
                         </div>
-                        <div id="grid-atk" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"></div>
+                        <div id="grid-atk" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
                     </div>
                     <div class="lg:col-span-4">
-                        <div class="sticky-cart bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-lg font-bold flex items-center gap-2">
-                                    <i class="fa-solid fa-cart-shopping text-indigo-600"></i> Keranjang
+                        <div class="sticky-cart bg-white rounded-2xl border border-blue-100 shadow-sm p-5">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-bold flex items-center gap-2">
+                                    <i class="fa-solid fa-cart-shopping text-blue-600"></i> Keranjang
                                 </h3>
-                                <span id="cart-count" class="bg-indigo-50 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full">0 barang</span>
+                                <span id="cart-count" class="bg-blue-50 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full">0</span>
                             </div>
-                            <div id="cart-items" class="max-h-[380px] overflow-y-auto space-y-3 mb-6"></div>
-                            <div class="border-t border-gray-100 pt-4">
-                                <div class="flex justify-between text-base font-bold mb-4">
-                                    <span>Total Barang</span>
-                                    <span id="cart-total-qty">0</span>
+                            <div id="cart-items" class="max-h-[340px] overflow-y-auto space-y-2 mb-4"></div>
+                            <div class="border-t pt-4">
+                                <div class="flex justify-between font-bold mb-3 text-sm">
+                                    <span>Total</span>
+                                    <span id="cart-total-qty" class="text-blue-600">0</span>
                                 </div>
-                                <button onclick="showKonfirmasiPengajuan()" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 transition shadow-lg shadow-green-200">
-                                    <i class="fa-solid fa-paper-plane"></i> Konfirmasi & Submit
+                                <button onclick="showKonfirmasiPengajuan()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-blue-200">
+                                    <i class="fa-solid fa-paper-plane"></i> Submit Pengajuan
                                 </button>
-                                <button onclick="resetCart()" class="w-full mt-3 text-red-500 hover:text-red-600 font-medium py-2 text-sm transition">Kosongkan Keranjang</button>
+                                <button onclick="resetCart()" class="w-full mt-2 text-red-500 text-sm font-medium py-2">Kosongkan</button>
                             </div>
                         </div>
                     </div>
@@ -280,137 +341,166 @@
         </div>
     </div>
 
-    <!-- HALAMAN ADMIN -->
-    <div id="admin-page" class="hidden min-h-screen bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-6">Panel Admin</h1>
+    <!-- ===================== HALAMAN ADMIN ===================== -->
+    <div id="admin-page" class="hidden min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-5 py-7">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-2xl font-extrabold text-gray-900">Panel Admin</h1>
+                    <p class="text-sm text-gray-500">Lokasi: <span id="admin-lokasi-label" class="font-semibold text-blue-600"></span></p>
+                </div>
+            </div>
 
-            <div class="flex border-b border-gray-200 mb-8">
-                <button onclick="switchAdminTab(0)" id="tab-btn-0" class="nav-active px-6 py-3 cursor-pointer text-sm">Daftar ATK & Stok</button>
-                <button onclick="switchAdminTab(1)" id="tab-btn-1" class="px-6 py-3 cursor-pointer text-gray-500 hover:text-gray-800 text-sm">Approval Pengajuan</button>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-7">
+                <div class="bg-blue-600 rounded-2xl p-4 text-white">
+                    <p class="text-blue-200 text-xs mb-1">Jenis ATK</p>
+                    <p class="text-2xl font-extrabold" id="sum-total-atk">0</p>
+                </div>
+                <div class="bg-sky-600 rounded-2xl p-4 text-white">
+                    <p class="text-sky-200 text-xs mb-1">Total Stok</p>
+                    <p class="text-2xl font-extrabold" id="sum-total-stok">0</p>
+                </div>
+                <div class="bg-amber-500 rounded-2xl p-4 text-white">
+                    <p class="text-amber-100 text-xs mb-1">Stok Menipis</p>
+                    <p class="text-2xl font-extrabold" id="sum-stok-tipis">0</p>
+                </div>
+                <div class="bg-rose-500 rounded-2xl p-4 text-white">
+                    <p class="text-rose-100 text-xs mb-1">Pending</p>
+                    <p class="text-2xl font-extrabold" id="sum-pending">0</p>
+                </div>
+            </div>
+
+            <div class="flex border-b mb-6 gap-1">
+                <button onclick="switchAdminTab(0)" id="tab-btn-0" class="nav-active px-5 py-2.5 text-sm cursor-pointer">Daftar ATK & Stok</button>
+                <button onclick="switchAdminTab(1)" id="tab-btn-1" class="px-5 py-2.5 text-sm text-gray-500 cursor-pointer">Approval</button>
             </div>
 
             <div id="admin-tab-0">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                    <h2 class="text-xl font-bold">Daftar Jenis ATK & Stok</h2>
-                    <button onclick="showTambahATKModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-2xl flex items-center gap-2 text-sm font-semibold transition shadow-lg shadow-emerald-200">
-                        <i class="fa-solid fa-plus"></i> Tambah ATK Baru
+                <div class="flex justify-between items-center mb-5">
+                    <h2 class="font-bold text-lg">Daftar ATK</h2>
+                    <button onclick="showTambahATKModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-1.5">
+                        <i class="fa-solid fa-plus"></i> Tambah
                     </button>
                 </div>
-                <div id="grid-atk-admin" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
+                <div id="grid-atk-admin" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
             </div>
 
-            <!-- TAB APPROVAL (MULTI SELECT) -->
             <div id="admin-tab-1" class="hidden">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <h2 class="text-xl font-bold">Menunggu Persetujuan</h2>
-                    <button onclick="loadPendingPengajuan()" class="text-sm text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+                <div class="flex justify-between items-center mb-5">
+                    <h2 class="font-bold text-lg">Menunggu Persetujuan</h2>
+                    <button onclick="loadPendingPengajuan()" class="text-sm text-blue-600 font-semibold flex items-center gap-1.5">
                         <i class="fa-solid fa-rotate"></i> Refresh
                     </button>
                 </div>
 
-                <!-- Toolbar Multi Select -->
                 <div id="approval-toolbar" class="hidden bg-white rounded-2xl border border-gray-100 p-4 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
                     <label class="flex items-center gap-3 cursor-pointer select-none">
-                        <input type="checkbox" id="select-all-pending" onchange="toggleSelectAll(this.checked)" class="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <input type="checkbox" id="select-all-pending" onchange="toggleSelectAll(this.checked)" class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                         <span class="text-sm font-medium text-gray-700">Pilih Semua</span>
                         <span id="selected-count" class="text-xs text-gray-400">(0 dipilih)</span>
                     </label>
                     <div class="flex gap-2 w-full sm:w-auto">
                         <button onclick="bulkApprove()" id="btn-bulk-approve" disabled
-                            class="flex-1 sm:flex-none px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-check"></i> Approve Terpilih
+                            class="flex-1 sm:flex-none px-5 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-xl transition">
+                            Approve Terpilih
                         </button>
                         <button onclick="bulkReject()" id="btn-bulk-reject" disabled
-                            class="flex-1 sm:flex-none px-5 py-2.5 bg-red-50 hover:bg-red-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-red-600 text-sm font-semibold rounded-xl transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-xmark"></i> Reject Terpilih
+                            class="flex-1 sm:flex-none px-5 py-2.5 bg-red-50 hover:bg-red-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-red-600 text-sm font-semibold rounded-xl transition">
+                            Reject Terpilih
                         </button>
                     </div>
                 </div>
-
-                <div id="approval-list" class="space-y-4"></div>
+                <div id="approval-list" class="space-y-3"></div>
             </div>
         </div>
     </div>
 
     <!-- MODAL TAMBAH ATK -->
-    <div id="modal-tambah" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
-        <div class="bg-white rounded-3xl w-full max-w-md mx-4 p-8 shadow-2xl">
-            <h3 class="text-xl font-bold mb-6">Tambah Jenis ATK Baru</h3>
-            <input id="nama-atk-baru" type="text" placeholder="Nama barang ATK" class="w-full px-5 py-4 border border-gray-200 rounded-2xl mb-4 focus:outline-none focus:border-emerald-500 transition">
-            <input id="url-gambar" type="text" placeholder="URL Gambar (opsional)" class="w-full px-5 py-4 border border-gray-200 rounded-2xl focus:outline-none focus:border-emerald-500 transition">
-            <div class="mt-8 flex gap-3">
-                <button onclick="hideTambahModal()" class="flex-1 py-4 text-gray-600 font-medium rounded-2xl border border-gray-200 hover:bg-gray-50 transition">Batal</button>
-                <button onclick="tambahATKBaru()" class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-semibold transition">Simpan</button>
+    <div id="modal-tambah" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl">
+            <h3 class="font-bold text-lg mb-5">Tambah ATK Baru · <span id="tambah-lokasi-label" class="text-blue-600"></span></h3>
+            <input id="nama-atk-baru" type="text" placeholder="Nama barang" class="w-full px-4 py-3 border border-gray-200 rounded-xl mb-3 focus:outline-none focus:border-blue-500">
+            <input id="url-gambar" type="text" placeholder="URL Gambar (opsional)" class="w-full px-4 py-3 border border-gray-200 rounded-xl mb-3 focus:outline-none focus:border-blue-500">
+            <input id="satuan-atk-baru" type="text" placeholder="Satuan (pcs, dus, dll)" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500" value="pcs">
+            <div class="mt-6 flex gap-3">
+                <button onclick="hideTambahModal()" class="flex-1 py-3 text-gray-600 rounded-xl border border-gray-200 font-medium">Batal</button>
+                <button onclick="tambahATKBaru()" class="flex-1 py-3 bg-blue-600 text-white rounded-xl font-semibold">Simpan</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL EDIT STOK -->
-    <div id="modal-edit-stok" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[110] p-4">
-        <div class="bg-white rounded-3xl w-full max-w-xs mx-auto p-6 shadow-2xl">
-            <h3 class="text-xl font-bold mb-1">Edit Stok</h3>
-            <p id="edit-nama-atk" class="text-gray-500 text-sm mb-6 truncate"></p>
-            <div class="flex items-center justify-center gap-3 mb-8">
-                <button onclick="ubahStokModal(-5)" class="w-12 h-12 flex-shrink-0 bg-gray-100 hover:bg-gray-200 rounded-xl text-2xl font-bold transition flex items-center justify-center">−</button>
-                <input id="input-stok" type="number" min="0" class="w-24 text-center text-3xl font-bold border border-gray-200 rounded-xl py-3 focus:outline-none focus:border-emerald-500 transition">
-                <button onclick="ubahStokModal(5)" class="w-12 h-12 flex-shrink-0 bg-gray-100 hover:bg-gray-200 rounded-xl text-2xl font-bold transition flex items-center justify-center">+</button>
+    <div id="modal-edit-stok" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-[110] p-4">
+        <div class="bg-white rounded-2xl w-full max-w-xs p-6 shadow-2xl">
+            <h3 class="font-bold text-lg mb-1">Edit Stok</h3>
+            <p id="edit-nama-atk" class="text-gray-500 text-sm mb-5 truncate"></p>
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <button onclick="ubahStokModal(-5)" class="w-11 h-11 bg-gray-100 hover:bg-gray-200 rounded-xl text-xl font-bold flex items-center justify-center">−</button>
+                <input id="input-stok" type="number" min="0" class="w-20 text-center text-3xl font-extrabold border border-gray-200 rounded-xl py-2 focus:outline-none focus:border-blue-500">
+                <button onclick="ubahStokModal(5)" class="w-11 h-11 bg-gray-100 hover:bg-gray-200 rounded-xl text-xl font-bold flex items-center justify-center">+</button>
             </div>
             <div class="flex gap-3">
-                <button onclick="hideEditStokModal()" class="flex-1 py-3.5 text-gray-600 font-medium rounded-2xl border border-gray-200 hover:bg-gray-50 transition">Batal</button>
-                <button onclick="simpanStok()" class="flex-1 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-semibold transition">Simpan Stok</button>
+                <button onclick="hideEditStokModal()" class="flex-1 py-3 text-gray-600 rounded-xl border border-gray-200 font-medium">Batal</button>
+                <button onclick="simpanStok()" class="flex-1 py-3 bg-blue-600 text-white rounded-xl font-semibold">Simpan</button>
             </div>
         </div>
     </div>
 
-    <div id="toast-container" class="fixed bottom-6 right-6 z-[9999] space-y-3"></div>
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[9999] space-y-2"></div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqrQSZPSSoxqeLsF8iYS_jLD8OeYSW-skHlKNG7wWv865mRuY2D1tbdlQzJCEqcvdWXw/exec";
+        // Ganti URL ini dengan Web App URL kamu
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyUAftbCLrmqmvh41YWMTN2dftaGrfzcCxZSH9FJ_3ZVxxvOkPKLh2pBIozDpx0BbWPXQ/exec";
 
-        let currentRole = null;
+        // Kredensial Admin per lokasi
+        const ADMIN_CREDS = {
+            Garut:   { user: "GAGARUT", pass: "Garut12345" },
+            Bandung: { user: "GABDG",   pass: "Bandung12345" }
+        };
+
+        let currentLokasi = null;      // "Garut" | "Bandung"
+        let isAdminLoggedIn = false;
         let namaPengajuSaatIni = "";
         let bagianPengaju = "";
-        let isAdminLoggedIn = false;
-        let atkList = [];
+        let atkList = [];              // sudah difilter per lokasi di server / client
         let selectedEditId = null;
         let confirmCallback = null;
         let recentActivityData = { atkBaru: [], stokMasuk: [], stokKeluar: [] };
-        let pendingList = []; // data pending untuk multi-select
+        let pendingList = [];
 
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast flex items-center gap-3 px-5 py-4 rounded-2xl shadow-xl text-white ${type === 'success' ? 'bg-green-600' : 'bg-red-600'}`;
-            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-check-circle' : 'fa-xmark'}"></i><span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3200);
+        function showToast(msg, type = 'success') {
+            const c = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = `toast flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-white text-sm ${type === 'success' ? 'bg-blue-600' : 'bg-red-600'}`;
+            t.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-check' : 'fa-xmark'}"></i><span>${msg}</span>`;
+            c.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
         }
 
-        function showConfirm(title, message, callback, okText = "Ya, Lanjutkan") {
+        function showConfirm(title, msg, cb, okText = "Ya") {
             document.getElementById('confirm-title').textContent = title;
-            document.getElementById('confirm-message').textContent = message;
+            document.getElementById('confirm-message').textContent = msg;
             document.getElementById('confirm-ok-btn').textContent = okText;
-            confirmCallback = callback;
+            confirmCallback = cb;
             document.getElementById('modal-confirm').classList.remove('hidden');
             document.getElementById('modal-confirm').classList.add('flex');
         }
-        function hideConfirmModal(result) {
+        function hideConfirmModal(ok) {
             document.getElementById('modal-confirm').classList.add('hidden');
             document.getElementById('modal-confirm').classList.remove('flex');
-            if (result && typeof confirmCallback === 'function') confirmCallback();
+            if (ok && confirmCallback) confirmCallback();
             confirmCallback = null;
         }
 
-        function showMoodMessage(mood) {
+        function showMoodMessage(m) {
             const map = {
-                joyful: { e: "😆", t: "Joyful!", m: "Wah! Mood Joyful hari ini!" },
-                happy:  { e: "😊", t: "Happy!", m: "Senang mendengarnya!" },
-                relaxed:{ e: "😌", t: "Relaxed", m: "Alhamdulillah bisa tenang." },
-                sad:    { e: "😢", t: "Semangat!", m: "Semoga segera membaik." },
-                angry:  { e: "😠", t: "Bimsalabim...", m: "AYOK NGAMOOKK! 💪" }
+                joyful: {e:"😆",t:"Joyful!",m:"Mood Joyful hari ini!"},
+                happy: {e:"😊",t:"Happy!",m:"Senang mendengarnya!"},
+                relaxed: {e:"😌",t:"Relaxed",m:"Alhamdulillah tenang."},
+                sad: {e:"😢",t:"Semangat!",m:"Semoga segera membaik."},
+                angry: {e:"😠",t:"Bimsalabim",m:"AYOK NGAMOOKK! 💪"}
             };
-            const d = map[mood];
+            const d = map[m];
             document.getElementById('mood-emoji-big').textContent = d.e;
             document.getElementById('mood-title').textContent = d.t;
             document.getElementById('mood-message').textContent = d.m;
@@ -422,20 +512,26 @@
             document.getElementById('mood-modal').classList.remove('flex');
         }
 
-        function pilihRole(role) {
-            currentRole = role;
+        // ===== PILIH LOKASI =====
+        function pilihLokasi(lokasi) {
+            currentLokasi = lokasi;
+            isAdminLoggedIn = false;
             document.getElementById('page-role').classList.add('hidden');
             document.getElementById('navbar').classList.remove('hidden');
-            document.getElementById('pengaju-page').classList.add('hidden');
+            document.getElementById('badge-lokasi').textContent = lokasi;
+            document.getElementById('pengaju-page').classList.remove('hidden');
             document.getElementById('admin-page').classList.add('hidden');
-            if (role === 'pengaju') {
-                document.getElementById('pengaju-page').classList.remove('hidden');
-                resetPengajuForm();
-            } else if (role === 'admin' && isAdminLoggedIn) {
-                document.getElementById('admin-page').classList.remove('hidden');
-                switchAdminTab(0);
-                loadATKFromSheet();
-            }
+            document.getElementById('btn-admin-icon').classList.remove('hidden');
+            resetPengajuForm();
+            loadATKFromSheet();
+        }
+
+        function kembaliKeLanding() {
+            showConfirm("Ganti Lokasi?", "Kembali ke halaman pilih lokasi?", () => {
+                currentLokasi = null;
+                isAdminLoggedIn = false;
+                location.reload();
+            }, "Ya");
         }
 
         function logout() {
@@ -443,6 +539,8 @@
         }
 
         function showAdminLogin() {
+            if (!currentLokasi) return;
+            document.getElementById('login-lokasi-label').textContent = currentLokasi;
             document.getElementById('modal-admin-login').classList.remove('hidden');
             document.getElementById('modal-admin-login').classList.add('flex');
             document.getElementById('admin-username').value = '';
@@ -455,98 +553,98 @@
         function cekLoginAdmin() {
             const u = document.getElementById('admin-username').value.trim();
             const p = document.getElementById('admin-password').value.trim();
-            if (u === "GA" && p === "GA12345") {
+            const cred = ADMIN_CREDS[currentLokasi];
+            if (cred && u === cred.user && p === cred.pass) {
                 isAdminLoggedIn = true;
                 hideAdminLogin();
-                document.getElementById('admin-nav').classList.remove('hidden');
-                pilihRole('admin');
-                showToast("Login Admin berhasil!");
+                document.getElementById('pengaju-page').classList.add('hidden');
+                document.getElementById('admin-page').classList.remove('hidden');
+                document.getElementById('admin-lokasi-label').textContent = currentLokasi;
+                switchAdminTab(0);
+                loadATKFromSheet();
+                showToast("Login Admin " + currentLokasi + " berhasil!");
             } else {
-                showToast("Username atau Password salah!", "error");
+                showToast("Username / Password salah untuk " + currentLokasi, "error");
             }
         }
 
+        // ===== LOAD DATA (filter lokasi) =====
         async function loadATKFromSheet() {
             try {
-                const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + Date.now());
-                if (res.ok) atkList = await res.json();
+                const res = await fetch(GOOGLE_SCRIPT_URL + "?lokasi=" + encodeURIComponent(currentLokasi || "") + "&t=" + Date.now());
+                if (res.ok) {
+                    const all = await res.json();
+                    // Filter client-side juga (jaga-jaga)
+                    atkList = (all || []).filter(i => {
+                        const loc = i.Lokasi || i.lokasi || "";
+                        return !currentLokasi || !loc || String(loc).toLowerCase() === String(currentLokasi).toLowerCase();
+                    });
+                }
             } catch (e) {
-                showToast("Gagal mengambil data ATK", "error");
+                showToast("Gagal load data ATK", "error");
             }
             renderPengajuGrid();
             renderAdminATK();
+            updateAdminSummary();
+        }
+
+        function updateAdminSummary() {
+            document.getElementById('sum-total-atk').textContent = atkList.length;
+            let total = 0, tipis = 0;
+            atkList.forEach(i => {
+                const s = parseInt(i['Stok'] ?? i.stok) || 0;
+                total += s;
+                if (s > 0 && s <= 5) tipis++;
+            });
+            document.getElementById('sum-total-stok').textContent = total;
+            document.getElementById('sum-stok-tipis').textContent = tipis;
         }
 
         async function loadRecentActivity() {
             try {
-                const res = await fetch(GOOGLE_SCRIPT_URL + "?action=get_recent_activity&t=" + Date.now());
-                if (!res.ok) return;
-                recentActivityData = await res.json();
-                renderRecentActivity();
+                const res = await fetch(GOOGLE_SCRIPT_URL + "?action=get_recent_activity&lokasi=" + encodeURIComponent(currentLokasi || "") + "&t=" + Date.now());
+                if (res.ok) {
+                    recentActivityData = await res.json();
+                    renderRecentActivity();
+                }
             } catch (e) {}
         }
 
         function renderRecentActivity() {
-            const elBaru = document.getElementById('list-atk-baru');
             const atkBaru = recentActivityData.atkBaru || [];
-            elBaru.innerHTML = atkBaru.length === 0
-                ? `<p class="text-sm text-gray-400">Belum ada ATK baru</p>`
-                : atkBaru.slice(0, 3).map(item => `
-                    <div class="flex items-center gap-3">
-                        <img src="${item.gambar || 'https://picsum.photos/id/237/100/100'}" class="w-11 h-11 rounded-xl object-cover bg-gray-100" onerror="this.src='https://picsum.photos/id/237/100/100'">
-                        <div class="min-w-0 flex-1">
-                            <p class="text-sm font-semibold text-gray-800 truncate">${item.nama}</p>
-                            <p class="text-xs text-gray-400">Baru ditambahkan</p>
-                        </div>
+            document.getElementById('list-atk-baru').innerHTML = atkBaru.length === 0
+                ? `<p class="text-sm text-blue-400">Belum ada</p>`
+                : atkBaru.slice(0,3).map(i => `
+                    <div class="flex items-center gap-2.5">
+                        <img src="${i.gambar || 'https://picsum.photos/id/237/80/80'}" class="w-9 h-9 rounded-lg object-cover" onerror="this.src='https://picsum.photos/id/237/80/80'">
+                        <p class="text-sm font-semibold text-blue-900 truncate">${i.nama}</p>
                     </div>`).join('');
 
-            const elMasuk = document.getElementById('list-stok-masuk');
-            const stokMasuk = recentActivityData.stokMasuk || [];
-            const btnMasuk = document.getElementById('btn-lihat-stok-masuk');
-            if (stokMasuk.length === 0) {
-                elMasuk.innerHTML = `<p class="text-sm text-gray-400">Belum ada stok masuk</p>`;
-                btnMasuk.classList.add('hidden');
-            } else {
-                elMasuk.innerHTML = stokMasuk.slice(0, 3).map(item => `
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-gray-700 truncate pr-2">${item.nama}</span>
-                        <span class="font-bold text-emerald-600 whitespace-nowrap">+${item.jumlah}</span>
-                    </div>`).join('');
-                btnMasuk.classList.toggle('hidden', stokMasuk.length <= 3);
-            }
+            const masuk = recentActivityData.stokMasuk || [];
+            const btnM = document.getElementById('btn-lihat-stok-masuk');
+            document.getElementById('list-stok-masuk').innerHTML = masuk.length === 0
+                ? `<p class="text-sm text-emerald-600/50">Belum ada</p>`
+                : masuk.slice(0,3).map(i => `<div class="flex justify-between text-sm"><span class="truncate">${i.nama}</span><span class="font-bold text-emerald-600">+${i.jumlah}</span></div>`).join('');
+            btnM.classList.toggle('hidden', masuk.length <= 3);
 
-            const elKeluar = document.getElementById('list-stok-keluar');
-            const stokKeluar = recentActivityData.stokKeluar || [];
-            const btnKeluar = document.getElementById('btn-lihat-stok-keluar');
-            if (stokKeluar.length === 0) {
-                elKeluar.innerHTML = `<p class="text-sm text-gray-400">Belum ada stok keluar</p>`;
-                btnKeluar.classList.add('hidden');
-            } else {
-                elKeluar.innerHTML = stokKeluar.slice(0, 3).map(item => `
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-gray-700 truncate pr-2">${item.nama}</span>
-                        <span class="font-bold text-rose-600 whitespace-nowrap">-${item.jumlah}</span>
-                    </div>`).join('');
-                btnKeluar.classList.toggle('hidden', stokKeluar.length <= 3);
-            }
+            const keluar = recentActivityData.stokKeluar || [];
+            const btnK = document.getElementById('btn-lihat-stok-keluar');
+            document.getElementById('list-stok-keluar').innerHTML = keluar.length === 0
+                ? `<p class="text-sm text-rose-600/50">Belum ada</p>`
+                : keluar.slice(0,3).map(i => `<div class="flex justify-between text-sm"><span class="truncate">${i.nama}</span><span class="font-bold text-rose-600">-${i.jumlah}</span></div>`).join('');
+            btnK.classList.toggle('hidden', keluar.length <= 3);
         }
 
         function showAllActivity(type) {
-            const title = document.getElementById('modal-activity-title');
-            const list = document.getElementById('modal-activity-list');
-            let data = type === 'masuk' ? (recentActivityData.stokMasuk || []) : (recentActivityData.stokKeluar || []);
-            title.textContent = type === 'masuk' ? "Semua Stok Masuk" : "Semua Stok Keluar";
-            const label = type === 'masuk' ? "+" : "-";
-            list.innerHTML = data.length === 0
+            const data = type === 'masuk' ? (recentActivityData.stokMasuk || []) : (recentActivityData.stokKeluar || []);
+            document.getElementById('modal-activity-title').textContent = type === 'masuk' ? "Semua Stok Masuk" : "Semua Stok Keluar";
+            const label = type === 'masuk' ? '+' : '-';
+            const color = type === 'masuk' ? 'text-emerald-600' : 'text-rose-600';
+            document.getElementById('modal-activity-list').innerHTML = data.length === 0
                 ? `<p class="text-sm text-gray-400 text-center py-6">Tidak ada data</p>`
-                : data.map(item => `
-                    <div class="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
-                        <div class="min-w-0 pr-3">
-                            <p class="text-sm font-medium text-gray-800 truncate">${item.nama}</p>
-                            <p class="text-xs text-gray-400">${item.tanggal || ''}</p>
-                        </div>
-                        <span class="font-bold ${type === 'masuk' ? 'text-emerald-600' : 'text-rose-600'} whitespace-nowrap">${label}${item.jumlah}</span>
-                    </div>`).join('');
+                : data.map(i => `<div class="flex justify-between py-2 border-b border-gray-50 text-sm">
+                    <div><p class="font-medium truncate">${i.nama}</p><p class="text-xs text-gray-400">${i.tanggal || ''}</p></div>
+                    <span class="font-bold ${color}">${label}${i.jumlah}</span></div>`).join('');
             document.getElementById('modal-all-activity').classList.remove('hidden');
             document.getElementById('modal-all-activity').classList.add('flex');
         }
@@ -555,15 +653,15 @@
             document.getElementById('modal-all-activity').classList.remove('flex');
         }
 
-        // ===== Pengaju =====
+        // ===== PENGAJU =====
         function simpanNamaDanLanjut() {
             const nama = document.getElementById('nama-input').value.trim();
             const bagian = document.getElementById('bagian-input').value.trim();
-            if (!nama) return showToast("Mohon isi Nama Lengkap!", "error");
-            if (!bagian) return showToast("Mohon isi Bagian / Unit Kerja!", "error");
+            if (!nama) return showToast("Isi nama lengkap!", "error");
+            if (!bagian) return showToast("Isi bagian!", "error");
             namaPengajuSaatIni = nama;
             bagianPengaju = bagian;
-            document.getElementById('nama-pengaju-header').innerHTML = `Pengaju: <span class="font-semibold text-gray-800">${nama}</span> · Bagian: <span class="font-semibold text-gray-800">${bagian}</span>`;
+            document.getElementById('nama-pengaju-header').innerHTML = `<span class="font-semibold text-gray-800">${nama}</span> · ${bagian} · <span class="text-blue-600">${currentLokasi}</span>`;
             document.getElementById('nama-form').classList.add('hidden');
             document.getElementById('pilih-atk-section').classList.remove('hidden');
             renderPengajuGrid();
@@ -588,23 +686,30 @@
             container.innerHTML = '';
             list.forEach(item => {
                 const stok = parseInt(item['Stok'] ?? item.stok) || 0;
-                const nama = item['Nama Barang'] || item.nama || 'Tidak ada nama';
+                const nama = item['Nama Barang'] || item.nama || '-';
                 const gambar = item['Gambar'] || item.gambar || '';
                 const satuan = item['Satuan'] || item.satuan || 'pcs';
                 const id = item['ID'] || item.id || '';
                 const isDisabled = stok <= 0;
+                let badgeClass = 'stok-aman', badgeText = `Stok ${stok}`;
+                if (stok <= 0) { badgeClass = 'stok-habis'; badgeText = 'HABIS'; }
+                else if (stok <= 5) { badgeClass = 'stok-tipis'; }
+
                 const div = document.createElement('div');
-                div.className = `bg-white rounded-3xl overflow-hidden card-hover p-5 border border-gray-100 ${isDisabled ? 'opacity-70' : ''}`;
+                div.className = `bg-white rounded-2xl p-3.5 border border-gray-100 card-hover ${isDisabled ? 'opacity-70' : ''}`;
                 div.innerHTML = `
-                    <img src="${gambar}" class="atk-image ${isDisabled ? 'grayscale' : ''}" onerror="this.src='https://picsum.photos/id/237/300/300'">
-                    <h4 class="font-bold text-base mb-1 mt-3 truncate">${nama}</h4>
-                    <p class="text-sm mb-4">Stok: <span class="${isDisabled ? 'text-red-500' : 'text-emerald-600'} font-bold">${stok} ${satuan}</span></p>
-                    <div class="flex items-center justify-center gap-5 mb-4">
-                        <button onclick="ubahQty('${id}', -1)" class="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-xl text-xl font-medium ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}">−</button>
-                        <span id="qty-${id}" class="text-2xl font-bold w-10 text-center">${item.qty || 0}</span>
-                        <button onclick="ubahQty('${id}', 1)" class="w-10 h-10 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xl font-medium ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}">+</button>
+                    <div class="relative mb-3">
+                        <img src="${gambar}" class="atk-image ${isDisabled ? 'grayscale' : ''}" onerror="this.src='https://picsum.photos/id/237/300/300'">
+                        <span class="stok-badge ${badgeClass} absolute top-2 right-2 shadow-sm">${badgeText}</span>
                     </div>
-                    <input id="alasan-${id}" type="text" placeholder="Alasan pengajuan..." class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500 transition" ${isDisabled ? 'disabled' : ''}>
+                    <h4 class="font-bold text-sm text-gray-900 truncate mb-1">${nama}</h4>
+                    <p class="text-xs text-gray-500 mb-3">Stok: <span class="font-bold ${stok <= 0 ? 'text-red-600' : stok <= 5 ? 'text-amber-600' : 'text-emerald-600'}">${stok} ${satuan}</span></p>
+                    <div class="flex items-center justify-center gap-3 mb-3">
+                        <button onclick="ubahQty('${id}', -1)" class="w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-lg text-lg font-medium ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}">−</button>
+                        <span id="qty-${id}" class="text-xl font-extrabold w-8 text-center">${item.qty || 0}</span>
+                        <button onclick="ubahQty('${id}', 1)" class="w-9 h-9 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-lg font-medium ${isDisabled ? 'opacity-40 cursor-not-allowed' : ''}">+</button>
+                    </div>
+                    <input id="alasan-${id}" type="text" placeholder="Alasan..." class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500" ${isDisabled ? 'disabled' : ''}>
                 `;
                 container.appendChild(div);
             });
@@ -624,42 +729,36 @@
         }
 
         function cariATK() {
-            const keyword = document.getElementById('search-input').value.toLowerCase().trim();
-            const filtered = keyword ? atkList.filter(item => (item['Nama Barang'] || item.nama || '').toLowerCase().includes(keyword)) : null;
-            renderPengajuGrid(filtered);
+            const kw = document.getElementById('search-input').value.toLowerCase().trim();
+            renderPengajuGrid(kw ? atkList.filter(i => (i['Nama Barang'] || i.nama || '').toLowerCase().includes(kw)) : null);
         }
 
         function renderCart() {
-            const cartItems = document.getElementById('cart-items');
-            const cartCount = document.getElementById('cart-count');
-            const totalQtyEl = document.getElementById('cart-total-qty');
             const selected = atkList.filter(i => (i.qty || 0) > 0);
-            cartCount.textContent = `${selected.length} barang`;
-            totalQtyEl.textContent = selected.reduce((sum, i) => sum + (i.qty || 0), 0);
+            document.getElementById('cart-count').textContent = selected.length;
+            document.getElementById('cart-total-qty').textContent = selected.reduce((s, i) => s + i.qty, 0);
+            const el = document.getElementById('cart-items');
             if (selected.length === 0) {
-                cartItems.innerHTML = `<div class="text-center py-10 text-gray-400"><i class="fa-solid fa-cart-shopping text-3xl mb-3 opacity-40"></i><p class="text-sm">Keranjang masih kosong</p></div>`;
+                el.innerHTML = `<div class="text-center py-8 text-gray-400 text-sm"><i class="fa-solid fa-cart-shopping text-2xl mb-2 opacity-30 block"></i>Keranjang kosong</div>`;
                 return;
             }
-            cartItems.innerHTML = selected.map(item => {
-                const nama = item['Nama Barang'] || item.nama || 'Item';
-                const id = item['ID'] || item.id || '';
-                return `<div class="flex gap-3 bg-slate-50 rounded-2xl p-3 items-center">
-                    <div class="flex-1 min-w-0"><p class="font-medium text-sm truncate">${nama}</p><p class="text-xs text-gray-500">Qty: <span class="font-bold">${item.qty}</span></p></div>
-                    <button onclick="ubahQty('${id}', -${item.qty})" class="text-red-500 hover:text-red-600 text-lg w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-50 transition">×</button>
+            el.innerHTML = selected.map(i => {
+                const id = i['ID'] || i.id;
+                return `<div class="flex items-center gap-2 bg-blue-50 rounded-xl p-2.5">
+                    <div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate">${i['Nama Barang'] || i.nama}</p><p class="text-xs text-blue-600 font-medium">× ${i.qty}</p></div>
+                    <button onclick="ubahQty('${id}', -${i.qty})" class="text-red-500 w-7 h-7 rounded-lg hover:bg-red-50">×</button>
                 </div>`;
             }).join('');
         }
 
         function showKonfirmasiPengajuan() {
-            if (!namaPengajuSaatIni || !bagianPengaju) return showToast("Mohon isi nama dan bagian terlebih dahulu!", "error");
-            const selected = atkList.filter(i => (i.qty || 0) > 0);
-            if (selected.length === 0) return showToast("Pilih minimal 1 barang ATK!", "error");
-            showConfirm("Kirim Pengajuan?", "Pengajuan akan dikirim dan menunggu persetujuan Admin", () => ajukanPengajuan(), "Kirim Sekarang");
+            if (!namaPengajuSaatIni) return showToast("Isi nama dulu!", "error");
+            if (atkList.filter(i => i.qty > 0).length === 0) return showToast("Pilih minimal 1 barang!", "error");
+            showConfirm("Kirim Pengajuan?", `Pengajuan ke lokasi ${currentLokasi}. Menunggu approval Admin.`, () => ajukanPengajuan(), "Kirim");
         }
 
         async function ajukanPengajuan() {
             const selected = atkList.filter(i => (i.qty || 0) > 0);
-            if (selected.length === 0) return;
             const payload = selected.map(item => ({
                 nama_pengaju: namaPengajuSaatIni,
                 bagian: bagianPengaju,
@@ -667,26 +766,27 @@
                 nama_barang: item['Nama Barang'] || item.nama,
                 jumlah: item.qty,
                 alasan: document.getElementById(`alasan-${item['ID'] || item.id}`)?.value.trim() || "-",
+                lokasi: currentLokasi,
                 action: "submit_pengajuan"
             }));
             try {
                 await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-                showToast("✅ Pengajuan berhasil dikirim! Menunggu approval Admin.");
+                showToast("✅ Pengajuan terkirim ke " + currentLokasi + "!");
                 resetPengajuForm();
             } catch (e) {
-                showToast("Gagal mengirim pengajuan.", "error");
+                showToast("Gagal mengirim", "error");
             }
         }
 
         function resetCart() {
-            showConfirm("Kosongkan Keranjang?", "Semua barang di keranjang akan dihapus.", () => {
+            showConfirm("Kosongkan keranjang?", "Semua item akan dihapus.", () => {
                 atkList.forEach(i => i.qty = 0);
                 renderPengajuGrid();
                 renderCart();
-            }, "Ya, Kosongkan");
+            });
         }
 
-        // ===== Admin =====
+        // ===== ADMIN =====
         function switchAdminTab(tab) {
             document.getElementById('admin-tab-0').classList.add('hidden');
             document.getElementById('admin-tab-1').classList.add('hidden');
@@ -702,10 +802,10 @@
         }
 
         function renderAdminATK() {
-            const container = document.getElementById('grid-atk-admin');
-            container.innerHTML = '';
-            if (atkList.length === 0) {
-                container.innerHTML = '<p class="col-span-full text-center py-16 text-gray-400">Belum ada data ATK</p>';
+            const c = document.getElementById('grid-atk-admin');
+            c.innerHTML = '';
+            if (!atkList.length) {
+                c.innerHTML = '<p class="col-span-full text-center py-12 text-gray-400">Belum ada data ATK di lokasi ini</p>';
                 return;
             }
             atkList.forEach(item => {
@@ -713,18 +813,27 @@
                 const nama = item['Nama Barang'] || item.nama || '';
                 const stok = item['Stok'] ?? item.stok ?? 0;
                 const gambar = item['Gambar'] || item.gambar || '';
+                const satuan = item['Satuan'] || item.satuan || 'pcs';
+                let bc = 'stok-aman';
+                if (stok <= 0) bc = 'stok-habis';
+                else if (stok <= 5) bc = 'stok-tipis';
+
                 const div = document.createElement('div');
-                div.className = 'bg-white rounded-3xl overflow-hidden card-hover p-4 border border-gray-100';
+                div.className = 'bg-white rounded-2xl p-3 border border-gray-100 card-hover';
                 div.innerHTML = `
-                    <img src="${gambar}" class="w-full h-36 object-cover rounded-2xl" onerror="this.src='https://picsum.photos/id/237/300/300'">
-                    <p class="font-bold mt-3 truncate text-sm">${nama}</p>
-                    <p class="text-sm text-gray-500 mb-4">Stok: <span class="font-bold text-base text-gray-800">${stok}</span></p>
+                    <div class="relative mb-2">
+                        <img src="${gambar}" class="w-full h-32 object-cover rounded-xl" onerror="this.src='https://picsum.photos/id/237/300/300'">
+                        <span class="stok-badge ${bc} absolute top-2 right-2">${stok}</span>
+                    </div>
+                    <p class="font-bold text-sm truncate mb-1">${nama}</p>
+                    <p class="text-xs text-gray-400 mb-3">${satuan}</p>
                     <div class="flex gap-2">
-                        <button onclick="editStok('${id}', '${String(nama).replace(/'/g, "\\'")}')" class="flex-1 py-2.5 text-xs bg-blue-50 text-blue-700 rounded-xl hover:bg-blue-100 font-semibold transition">Edit Stok</button>
-                        <button onclick="hapusATK('${id}')" class="flex-1 py-2.5 text-xs text-red-500 hover:bg-red-50 rounded-xl font-semibold transition">Hapus</button>
+                        <button onclick="editStok('${id}', '${String(nama).replace(/'/g,"\\'")}')" class="flex-1 py-2 text-xs bg-blue-50 text-blue-700 rounded-lg font-semibold hover:bg-blue-100">Edit Stok</button>
+                        <button onclick="hapusATK('${id}')" class="flex-1 py-2 text-xs text-red-500 hover:bg-red-50 rounded-lg font-semibold">Hapus</button>
                     </div>`;
-                container.appendChild(div);
+                c.appendChild(div);
             });
+            updateAdminSummary();
         }
 
         function editStok(id, nama) {
@@ -739,9 +848,9 @@
             document.getElementById('modal-edit-stok').classList.add('hidden');
             document.getElementById('modal-edit-stok').classList.remove('flex');
         }
-        function ubahStokModal(delta) {
-            const input = document.getElementById('input-stok');
-            input.value = Math.max(0, (parseInt(input.value) || 0) + delta);
+        function ubahStokModal(d) {
+            const inp = document.getElementById('input-stok');
+            inp.value = Math.max(0, (parseInt(inp.value) || 0) + d);
         }
 
         async function simpanStok() {
@@ -749,23 +858,25 @@
             try {
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST', mode: 'no-cors',
-                    body: JSON.stringify({ action: "update_stok", id: selectedEditId, stok: stokBaru })
+                    body: JSON.stringify({ action: "update_stok", id: selectedEditId, stok: stokBaru, lokasi: currentLokasi })
                 });
                 const item = atkList.find(i => (i['ID'] || i.id) === selectedEditId);
                 if (item) { item.stok = stokBaru; item['Stok'] = stokBaru; }
                 hideEditStokModal();
                 renderAdminATK();
                 renderPengajuGrid();
-                showToast("✅ Stok berhasil disimpan!");
-                setTimeout(() => loadATKFromSheet(), 1000);
+                showToast("✅ Stok disimpan!");
+                setTimeout(() => loadATKFromSheet(), 800);
             } catch (e) {
-                showToast("Gagal menyimpan stok", "error");
+                showToast("Gagal simpan stok", "error");
             }
         }
 
         function showTambahATKModal() {
+            document.getElementById('tambah-lokasi-label').textContent = currentLokasi;
             document.getElementById('nama-atk-baru').value = '';
             document.getElementById('url-gambar').value = '';
+            document.getElementById('satuan-atk-baru').value = 'pcs';
             document.getElementById('modal-tambah').classList.remove('hidden');
             document.getElementById('modal-tambah').classList.add('flex');
         }
@@ -776,60 +887,58 @@
 
         async function tambahATKBaru() {
             const nama = document.getElementById('nama-atk-baru').value.trim();
-            if (!nama) return showToast("Nama ATK wajib diisi!", "error");
+            if (!nama) return showToast("Nama wajib diisi!", "error");
             let gambar = document.getElementById('url-gambar').value.trim();
             if (!gambar) gambar = `https://picsum.photos/id/${Math.floor(Math.random()*900)+100}/300/300`;
+            const satuan = document.getElementById('satuan-atk-baru').value.trim() || 'pcs';
             try {
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST', mode: 'no-cors',
-                    body: JSON.stringify({ action: "tambah_atk", nama, gambar })
+                    body: JSON.stringify({ action: "tambah_atk", nama, gambar, satuan, lokasi: currentLokasi })
                 });
-                const newId = "ATK" + Date.now();
-                atkList.push({ id: newId, "ID": newId, nama, "Nama Barang": nama, gambar, "Gambar": gambar, stok: 0, "Stok": 0 });
+                const id = "ATK" + Date.now();
+                atkList.push({ id, "ID": id, nama, "Nama Barang": nama, gambar, "Gambar": gambar, stok: 0, "Stok": 0, satuan, "Satuan": satuan, lokasi: currentLokasi, "Lokasi": currentLokasi });
                 hideTambahModal();
                 renderAdminATK();
-                showToast("✅ ATK baru berhasil ditambahkan!");
+                showToast("✅ ATK ditambahkan ke " + currentLokasi);
                 setTimeout(() => loadATKFromSheet(), 800);
             } catch (e) {
-                showToast("Gagal menambahkan ATK", "error");
+                showToast("Gagal tambah ATK", "error");
             }
         }
 
         function hapusATK(id) {
-            showConfirm("Hapus ATK?", "Yakin ingin menghapus jenis ATK ini?", async () => {
+            showConfirm("Hapus ATK?", "Yakin hapus jenis ATK ini dari " + currentLokasi + "?", async () => {
                 try {
                     await fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST', mode: 'no-cors',
-                        body: JSON.stringify({ action: "hapus_atk", id })
+                        body: JSON.stringify({ action: "hapus_atk", id, lokasi: currentLokasi })
                     });
-                    atkList = atkList.filter(item => (item['ID'] || item.id) !== id);
+                    atkList = atkList.filter(i => (i['ID'] || i.id) !== id);
                     renderAdminATK();
                     renderPengajuGrid();
-                    showToast("ATK berhasil dihapus");
+                    showToast("ATK dihapus");
                 } catch (e) {
-                    showToast("Gagal menghapus ATK", "error");
+                    showToast("Gagal hapus", "error");
                 }
             }, "Ya, Hapus");
         }
 
-        // ===== APPROVAL + MULTI SELECT =====
+        // ===== APPROVAL =====
         async function loadPendingPengajuan() {
-            const container = document.getElementById('approval-list');
+            const el = document.getElementById('approval-list');
             const toolbar = document.getElementById('approval-toolbar');
-            container.innerHTML = `<div class="text-center py-12 text-gray-400"><i class="fa-solid fa-spinner fa-spin text-2xl mb-3"></i><p>Memuat data...</p></div>`;
+            el.innerHTML = `<div class="text-center py-10 text-gray-400 text-sm"><i class="fa-solid fa-spinner fa-spin mb-2"></i><p>Memuat...</p></div>`;
             toolbar.classList.add('hidden');
             pendingList = [];
-
             try {
-                const res = await fetch(GOOGLE_SCRIPT_URL + "?action=get_pending&t=" + Date.now());
+                const res = await fetch(GOOGLE_SCRIPT_URL + "?action=get_pending&lokasi=" + encodeURIComponent(currentLokasi || "") + "&t=" + Date.now());
                 const data = await res.json();
                 pendingList = data || [];
+                document.getElementById('sum-pending').textContent = pendingList.length;
 
                 if (!pendingList.length) {
-                    container.innerHTML = `<div class="bg-white rounded-3xl p-10 text-center text-gray-400 border border-gray-100">
-                        <i class="fa-solid fa-inbox text-5xl mb-4 opacity-40"></i>
-                        <p class="text-sm">Tidak ada pengajuan yang menunggu persetujuan</p>
-                    </div>`;
+                    el.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center text-gray-400 border border-gray-100 text-sm">Tidak ada pengajuan pending di ${currentLokasi}</div>`;
                     return;
                 }
 
@@ -837,29 +946,23 @@
                 document.getElementById('select-all-pending').checked = false;
                 updateSelectedCount();
 
-                container.innerHTML = pendingList.map((item, index) => `
-                    <div class="approval-item bg-white rounded-2xl p-5 border border-gray-100 shadow-sm transition" data-index="${index}" id="pending-item-${index}">
-                        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-                            <label class="flex items-start gap-3 cursor-pointer flex-1 min-w-0">
-                                <input type="checkbox" class="pending-checkbox mt-1 w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 flex-shrink-0"
-                                    data-index="${index}" onchange="onCheckboxChange()">
-                                <div class="min-w-0">
-                                    <p class="font-bold text-gray-800">${item.nama_pengaju || '-'} <span class="text-gray-400 font-normal text-sm">· ${item.bagian || '-'}</span></p>
-                                    <p class="text-sm text-gray-600 mt-1">${item.nama_barang || '-'} <span class="font-semibold">× ${item.jumlah || 0}</span></p>
-                                    <p class="text-xs text-gray-400 mt-1">${item.tanggal || ''} · Alasan: ${item.alasan || '-'}</p>
-                                </div>
-                            </label>
-                            <div class="flex gap-2 flex-shrink-0">
-                                <button onclick="approveItem(${item.row}, '${String(item.nama_barang || '').replace(/'/g,"\\'")}', ${item.jumlah || 0})" 
-                                    class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition">Approve</button>
-                                <button onclick="rejectItem(${item.row})" 
-                                    class="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold rounded-xl transition">Reject</button>
+                el.innerHTML = pendingList.map((item, index) => `
+                    <div class="approval-item bg-white rounded-xl p-4 border border-gray-100 flex flex-col sm:flex-row sm:items-center gap-3" data-index="${index}" id="pending-item-${index}">
+                        <label class="flex items-start gap-3 cursor-pointer flex-1 min-w-0">
+                            <input type="checkbox" class="pending-checkbox mt-1 w-5 h-5 rounded border-gray-300 text-blue-600" data-index="${index}" onchange="onCheckboxChange()">
+                            <div class="min-w-0">
+                                <p class="font-bold text-sm">${item.nama_pengaju || '-'} <span class="text-gray-400 font-normal">· ${item.bagian || '-'}</span></p>
+                                <p class="text-sm text-gray-600 mt-0.5">${item.nama_barang || '-'} <b class="text-blue-600">× ${item.jumlah || 0}</b></p>
+                                <p class="text-xs text-gray-400 mt-0.5">${item.tanggal || ''} · ${item.alasan || '-'}</p>
                             </div>
+                        </label>
+                        <div class="flex gap-2 flex-shrink-0">
+                            <button onclick="approveItem(${item.row}, '${String(item.nama_barang || '').replace(/'/g,"\\'")}', ${item.jumlah || 0})" class="px-3.5 py-2 bg-blue-600 text-white text-xs font-semibold rounded-lg">Approve</button>
+                            <button onclick="rejectItem(${item.row})" class="px-3.5 py-2 bg-red-50 text-red-600 text-xs font-semibold rounded-lg">Reject</button>
                         </div>
-                    </div>
-                `).join('');
+                    </div>`).join('');
             } catch (e) {
-                container.innerHTML = `<div class="text-center py-12 text-red-400"><p>Gagal memuat data pending</p></div>`;
+                el.innerHTML = `<p class="text-center text-red-400 py-8 text-sm">Gagal memuat</p>`;
             }
         }
 
@@ -873,7 +976,6 @@
             document.getElementById('select-all-pending').checked = all.length > 0 && checked.length === all.length;
             updateSelectedCount();
         }
-
         function toggleSelectAll(checked) {
             document.querySelectorAll('.pending-checkbox').forEach(cb => {
                 cb.checked = checked;
@@ -882,15 +984,12 @@
             });
             updateSelectedCount();
         }
-
         function updateSelectedCount() {
             const count = document.querySelectorAll('.pending-checkbox:checked').length;
             document.getElementById('selected-count').textContent = `(${count} dipilih)`;
-            const hasSelection = count > 0;
-            document.getElementById('btn-bulk-approve').disabled = !hasSelection;
-            document.getElementById('btn-bulk-reject').disabled = !hasSelection;
+            document.getElementById('btn-bulk-approve').disabled = count === 0;
+            document.getElementById('btn-bulk-reject').disabled = count === 0;
         }
-
         function getSelectedPending() {
             const selected = [];
             document.querySelectorAll('.pending-checkbox:checked').forEach(cb => {
@@ -902,88 +1001,71 @@
 
         function bulkApprove() {
             const selected = getSelectedPending();
-            if (selected.length === 0) return showToast("Pilih minimal 1 pengajuan", "error");
-            showConfirm(
-                "Approve Terpilih?",
-                `${selected.length} pengajuan akan disetujui dan stok akan dikurangi. Lanjutkan?`,
-                async () => {
-                    showToast(`Memproses ${selected.length} pengajuan...`);
-                    for (const item of selected) {
-                        try {
-                            await fetch(GOOGLE_SCRIPT_URL, {
-                                method: 'POST', mode: 'no-cors',
-                                body: JSON.stringify({
-                                    action: "approve",
-                                    row: item.row,
-                                    nama_barang: item.nama_barang,
-                                    jumlah: item.jumlah
-                                })
-                            });
-                        } catch (e) {}
-                    }
-                    showToast(`✅ ${selected.length} pengajuan berhasil di-approve`);
-                    loadPendingPengajuan();
-                    setTimeout(() => loadATKFromSheet(), 1000);
-                },
-                "Ya, Approve Semua"
-            );
+            if (!selected.length) return;
+            showConfirm("Approve Terpilih?", `${selected.length} pengajuan di ${currentLokasi} akan disetujui.`, async () => {
+                for (const item of selected) {
+                    try {
+                        await fetch(GOOGLE_SCRIPT_URL, {
+                            method: 'POST', mode: 'no-cors',
+                            body: JSON.stringify({ action: "approve", row: item.row, nama_barang: item.nama_barang, jumlah: item.jumlah, lokasi: currentLokasi })
+                        });
+                    } catch (e) {}
+                }
+                showToast(`✅ ${selected.length} disetujui`);
+                loadPendingPengajuan();
+                setTimeout(() => loadATKFromSheet(), 800);
+            }, "Approve Semua");
         }
 
         function bulkReject() {
             const selected = getSelectedPending();
-            if (selected.length === 0) return showToast("Pilih minimal 1 pengajuan", "error");
-            showConfirm(
-                "Reject Terpilih?",
-                `${selected.length} pengajuan akan ditolak. Stok tidak berubah.`,
-                async () => {
-                    showToast(`Memproses ${selected.length} pengajuan...`);
-                    for (const item of selected) {
-                        try {
-                            await fetch(GOOGLE_SCRIPT_URL, {
-                                method: 'POST', mode: 'no-cors',
-                                body: JSON.stringify({ action: "reject", row: item.row })
-                            });
-                        } catch (e) {}
-                    }
-                    showToast(`${selected.length} pengajuan ditolak`);
-                    loadPendingPengajuan();
-                },
-                "Ya, Reject Semua"
-            );
+            if (!selected.length) return;
+            showConfirm("Reject Terpilih?", `${selected.length} pengajuan akan ditolak.`, async () => {
+                for (const item of selected) {
+                    try {
+                        await fetch(GOOGLE_SCRIPT_URL, {
+                            method: 'POST', mode: 'no-cors',
+                            body: JSON.stringify({ action: "reject", row: item.row, lokasi: currentLokasi })
+                        });
+                    } catch (e) {}
+                }
+                showToast(`${selected.length} ditolak`);
+                loadPendingPengajuan();
+            }, "Reject Semua");
         }
 
         async function approveItem(row, namaBarang, jumlah) {
-            showConfirm("Approve Pengajuan?", `Stok "${namaBarang}" akan dikurangi sebanyak ${jumlah}. Lanjutkan?`, async () => {
+            showConfirm("Approve?", `Stok "${namaBarang}" dikurangi ${jumlah} di ${currentLokasi}?`, async () => {
                 try {
                     await fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST', mode: 'no-cors',
-                        body: JSON.stringify({ action: "approve", row, nama_barang: namaBarang, jumlah })
+                        body: JSON.stringify({ action: "approve", row, nama_barang: namaBarang, jumlah, lokasi: currentLokasi })
                     });
-                    showToast("✅ Pengajuan disetujui. Stok telah dikurangi.");
+                    showToast("✅ Disetujui");
                     loadPendingPengajuan();
-                    setTimeout(() => loadATKFromSheet(), 1000);
+                    setTimeout(() => loadATKFromSheet(), 800);
                 } catch (e) {
-                    showToast("Gagal approve", "error");
+                    showToast("Gagal", "error");
                 }
-            }, "Ya, Approve");
+            }, "Approve");
         }
 
         async function rejectItem(row) {
-            showConfirm("Tolak Pengajuan?", "Pengajuan ini akan ditolak dan stok tidak berubah.", async () => {
+            showConfirm("Tolak?", "Pengajuan ditolak, stok tidak berubah.", async () => {
                 try {
                     await fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST', mode: 'no-cors',
-                        body: JSON.stringify({ action: "reject", row })
+                        body: JSON.stringify({ action: "reject", row, lokasi: currentLokasi })
                     });
-                    showToast("Pengajuan ditolak.");
+                    showToast("Ditolak");
                     loadPendingPengajuan();
                 } catch (e) {
-                    showToast("Gagal reject", "error");
+                    showToast("Gagal", "error");
                 }
-            }, "Ya, Tolak");
+            }, "Tolak");
         }
 
-        window.onload = () => loadATKFromSheet();
+        // window.onload tidak auto-load sampai lokasi dipilih
     </script>
 </body>
 </html>
